@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/colors_and_type.css">
+  <script src="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/_ds_bundle.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; background: #F7F9FB; font-family: 'Poppins', sans-serif; }
+    a { color: #081C2A; } a:hover { color: #04C537; }
+    @keyframes gz-blink { 0%, 90%, 100% { transform: scaleY(1); } 93%, 96% { transform: scaleY(0.08); } }
+    @keyframes gz-seg { 0% { opacity: 0.18; } 14%, 68% { opacity: 1; } 82%, 100% { opacity: 0.18; } }
+    @keyframes gz-pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+    @keyframes gz-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</helmet>
+
+<section style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding: 48px; --gz-play: {{ playState }}">
+
+  <!-- ============ 9a — ojos tipo barra sin cara ============ -->
+  <div id="9a" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 400px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">9a</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">ojos tipo barra sin cara</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">El logo animado: reloj-medidor con indicador rojo (alerta) a la izquierda y verde (gestión) a la derecha, píldora arriba y triángulo abajo sobre la misma circunferencia, y los ojos tipo barra que parpadean.</p>
+
+    <div style="display: flex; justify-content: center; padding: 8px 0;">
+      <svg viewBox="0 0 200 212" style="width: 300px; height: 318px;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+        <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0.00s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0.00s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </g>
+      </svg>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+      <div style="background: #081C2A; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 14px;">
+        <svg viewBox="0 0 200 212" style="width: 72px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+          <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+      <div style="background: #F7F9FB; border: 1px solid #E1E7ED; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 14px;">
+        <svg viewBox="0 0 200 212" style="width: 72px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#081C2A" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+      </div>
+      <div style="background: #04C537; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 14px;">
+        <svg viewBox="0 0 200 212" style="width: 72px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+          <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 9c — Ícono de app (de 9a) ============ -->
+  <div id="9c" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 400px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">9c</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Ícono de app — sobre navy (de 9a)</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">La versión <a href="#9a">9a</a> como ícono de app: el fondo navy reemplaza el anillo exterior, el espectro y los ojos barra resaltan en blanco. Se muestra a 3 escalas.</p>
+
+    <div style="display: flex; align-items: flex-end; justify-content: center; gap: 20px; padding: 16px 0;">
+      <div style="width: 180px; height: 180px; border-radius: 40px; background: radial-gradient(circle at 30% 20%, #12314A 0%, #081C2A 70%); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(8,28,42,0.25);">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0.00s infinite; animation-play-state: var(--gz-play);"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0.00s infinite; animation-play-state: var(--gz-play);"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <g style="animation: gz-blink 4.4s 2s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+            <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          </g>
+        </svg>
+      </div>
+      <div style="width: 96px; height: 96px; border-radius: 22px; background: #081C2A; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="14" stroke-linecap="round"></path>
+          <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="14" stroke-linecap="round"></path>
+          <rect x="94.5" y="34" width="11" height="22" rx="5.5" fill="#FFFFFF"></rect>
+          <polygon points="100,164 88,184 112,184" fill="#FFFFFF"></polygon>
+          <rect x="80.5" y="90" width="11" height="40" rx="5.5" fill="#FFFFFF"></rect>
+          <rect x="108.5" y="90" width="11" height="40" rx="5.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+      <div style="width: 48px; height: 48px; border-radius: 12px; background: #081C2A; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="16" stroke-linecap="round"></path>
+          <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="16" stroke-linecap="round"></path>
+          <rect x="93.5" y="34" width="13" height="22" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,164 86,184 114,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 11.5px; color: #5A6B7A; line-height: 1.5;">En tamaños pequeños los 8 segmentos se simplifican a 2 arcos (rojo = alerta, verde = gestión) para que el ícono siga legible a 48 px.</p>
+  </div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;animar&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Animación&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      playState: (this.props.animar ?? true) ? 'running' : 'paused'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

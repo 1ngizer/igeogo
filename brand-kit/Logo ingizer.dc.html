@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/colors_and_type.css">
+  <script src="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/_ds_bundle.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; background: #F7F9FB; font-family: 'Poppins', sans-serif; }
+    a { color: #081C2A; } a:hover { color: #04C537; }
+    @keyframes gz-blink { 0%, 90%, 100% { transform: scaleY(1); } 93%, 96% { transform: scaleY(0.08); } }
+    @keyframes gz-seg { 0% { opacity: 0.18; } 14%, 68% { opacity: 1; } 82%, 100% { opacity: 0.18; } }
+  </style>
+</helmet>
+
+<section style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding: 48px 48px 0 48px; --gz-play: {{ playState }}">
+
+  <!-- ============ IG — Foto de perfil de Instagram ============ -->
+  <div id="IG" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 560px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">IG</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Foto de perfil — Instagram</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">Lienzo cuadrado (1080×1080) con la marca 9a centrada sobre navy — pensado para el recorte circular de Instagram. A la derecha, la vista previa de cómo se ve el avatar en la app.</p>
+
+    <div style="display: flex; align-items: center; gap: 28px; padding: 12px 0; flex-wrap: wrap;">
+      <!-- Lienzo cuadrado exportable -->
+      <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+        <div style="width: 240px; height: 240px; background: radial-gradient(circle at 50% 42%, #12314A 0%, #081C2A 72%); display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 200 212" style="width: 66%; height: 66%;">
+            <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+            <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+            <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+            <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+              <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+              <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+            </g>
+          </svg>
+        </div>
+        <span style="font-size: 11px; color: #5A6B7A;">Lienzo 1080×1080</span>
+      </div>
+
+      <!-- Vista previa circular (avatar IG) -->
+      <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <div style="padding: 3px; border-radius: 50%; background: linear-gradient(45deg, #FCD006, #FF8F1B, #FF2E27, #04C537);">
+          <div style="width: 130px; height: 130px; border-radius: 50%; border: 3px solid #FFFFFF; background: radial-gradient(circle at 50% 42%, #12314A 0%, #081C2A 72%); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <svg viewBox="0 0 200 212" style="width: 66%; height: 66%;">
+              <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13"></path>
+              <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+              <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+              <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+              <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13"></path>
+              <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+              <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+              <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+              <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+              <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+              <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+              <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+            </svg>
+          </div>
+        </div>
+        <span style="font-size: 13px; font-weight: 600; color: #081C2A;">ingizer</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ L4 — Marca como la "i" de ingizer ============ -->
+  <div id="L4" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 40px; width: 560px; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L4</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Marca como la "i" inicial</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">La marca reemplaza la "i" inicial de <strong>in</strong>gizer: el reloj-medidor se convierte en la primera letra y el resto del nombre fluye a la derecha.</p>
+    <div style="display: flex; align-items: center; gap: 4px; padding: 8px 0;">
+      <svg viewBox="0 0 200 212" style="width: 96px; flex-shrink: 0;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+        <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </g>
+      </svg>
+      <span style="font-size: 76px; font-weight: 600; color: #081C2A; letter-spacing: -0.03em; line-height: 0.9;">ngizer</span>
+    </div>
+  </div>
+
+  <!-- ============ L5 — Wordmark subrayado por el medidor ============ -->
+  <div id="L5" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 40px; width: 560px; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L5</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Wordmark subrayado por el espectro</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">La marca a la izquierda y el nombre subrayado por el degradado del medidor (rojo → verde), que refuerza la idea de gestión y alerta bajo el propio texto.</p>
+    <div style="display: flex; align-items: center; gap: 22px; padding: 8px 0;">
+      <svg viewBox="0 0 200 212" style="width: 96px; flex-shrink: 0;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+        <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </g>
+      </svg>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 66px; font-weight: 600; color: #081C2A; letter-spacing: -0.03em; line-height: 0.9;">ingizer</span>
+        <div style="height: 7px; border-radius: 4px; background: linear-gradient(90deg, #FF2E27, #FF8F1B, #FCD006, #9FDA20, #04C537); animation: gz-seg 3.2s infinite; animation-play-state: var(--gz-play);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ L6 — Insignia compacta ============ -->
+  <div id="L6" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 360px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L6</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Insignia compacta (navy)</span>
+    </div>
+    <p style="margin: 0; font-size: 12.5px; color: #5A6B7A; line-height: 1.5;">Pastilla navy con marca y nombre — para barras de navegación, firmas de correo y avatares horizontales.</p>
+    <div style="display: flex; justify-content: center; padding: 12px 0;">
+      <div style="background: #081C2A; border-radius: 999px; padding: 14px 30px 14px 16px; display: inline-flex; align-items: center; gap: 14px;">
+      <svg viewBox="0 0 200 212" style="width: 52px; flex-shrink: 0;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+        <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </g>
+      </svg>
+        <span style="font-size: 34px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.03em; line-height: 1;">ingizer</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding: 48px; --gz-play: {{ playState }}">
+
+  <!-- ============ L1 — Lockup horizontal (claro) ============ -->
+  <div id="L1" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 40px; width: 560px; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L1</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Lockup horizontal — claro</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 22px;">
+      <svg viewBox="0 0 200 212" style="width: 118px; flex-shrink: 0;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+        <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </g>
+      </svg>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 66px; font-weight: 600; color: #081C2A; letter-spacing: -0.03em; line-height: 0.9;">ingizer</span>
+        <span style="font-size: 15px; font-weight: 500; color: #081C2A; letter-spacing: 0.14em; align-self: flex-end;">#EmpowerYourBusiness</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ L2 — Lockup horizontal (navy) ============ -->
+  <div id="L2" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 560px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L2</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Lockup horizontal — sobre navy</span>
+    </div>
+    <div style="background: #081C2A; border-radius: 10px; padding: 40px; display: flex; align-items: center; gap: 22px;">
+      <svg viewBox="0 0 200 212" style="width: 118px; flex-shrink: 0;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+        <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </g>
+      </svg>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 66px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.03em; line-height: 0.9;">ingizer</span>
+        <span style="font-size: 15px; font-weight: 500; color: #04C537; letter-spacing: 0.14em; align-self: flex-end;">#EmpowerYourBusiness</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ L3 — Lockup apilado ============ -->
+  <div id="L3" style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 24px; width: 360px; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="background: #081C2A; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">L3</span>
+      <span style="font-size: 15px; font-weight: 600; color: #081C2A;">Lockup apilado</span>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px 0;">
+      <svg viewBox="0 0 200 212" style="width: 128px;">
+        <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+        <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+        <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite; animation-play-state: var(--gz-play);"></path>
+        <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+        <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+        <g style="animation: gz-blink 4.4s infinite; animation-play-state: var(--gz-play); transform-box: fill-box; transform-origin: center;">
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </g>
+      </svg>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+        <span style="font-size: 52px; font-weight: 600; color: #081C2A; letter-spacing: -0.03em; line-height: 0.9;">ingizer</span>
+        <span style="font-size: 12px; font-weight: 500; color: #081C2A; letter-spacing: 0.14em;">#EmpowerYourBusiness</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;animar&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Animación&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      playState: (this.props.animar ?? true) ? 'running' : 'paused'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

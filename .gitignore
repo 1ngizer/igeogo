@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (secretos)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.claude/
+
+# Artefactos
+dist/
+coverage/
+tmp/
+
+# Repo anidado de otro proyecto (landing de ingizer, tiene su propio git)
+public/ingizer/

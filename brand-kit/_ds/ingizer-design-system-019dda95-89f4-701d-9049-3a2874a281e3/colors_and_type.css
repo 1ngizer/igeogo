@@ -1,0 +1,494 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Ingizer Design System — Colors & Type
+   ─────────────────────────────────────────────────────────────────────────
+   Brand: ingizer (in = intelligence + gizer = energy)
+   Tagline: #EmpowerYourBusiness
+   Domain: AI-powered financial consulting
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Webfont: ALTONE — the official ingizer typeface (per Manual de Marca 2026,
+   page 09: "Toda la tipografía ALTONE está disponible para usar", weights
+   Thin / Regular / Bold). Altone is a commercial face by Mostardesign — it
+   must be self-hosted or loaded from Adobe Fonts. Drop the font files into
+   assets/fonts/ and uncomment the @font-face block below.
+
+   While the file isn't bundled, we substitute with Manrope (geometric sans,
+   close to Altone's open apertures and high x-height) so the system stays
+   functional. Swap immediately when the licensed files arrive. */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/*
+@font-face { font-family: 'Altone'; src: url('assets/fonts/Altone-Thin.woff2') format('woff2'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'Altone'; src: url('assets/fonts/Altone-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Altone'; src: url('assets/fonts/Altone-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+*/
+
+:root {
+  /* ───────────────────────────────────────────────────────────────────────
+     CORE BRAND COLORS
+     Extracted directly from the official logo (INGIZER_LOGOS-RGB_5.png).
+     The "meter" arc spans red → orange → yellow → lime → green —
+     a literal performance gauge that doubles as our spectrum accent.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  /* Primary brand ink. Used for type, primary surfaces, dark mode bg. */
+  --brand-navy:        #17222E;   /* official C100 M79 Y53 K70 — wordmark */
+  --brand-navy-900:    #0D1620;   /* deeper, for layered dark surfaces */
+  --brand-navy-800:    #1B2A38;
+  --brand-navy-700:    #243648;
+  --brand-navy-600:    #2F4458;
+
+  /* The official three-color spectrum (Manual de Marca 2026, p.07).
+     Used as a degradado/gradient — the manual notes variations are open
+     "según las necesidades gráficas". */
+  --brand-red:         #DB2D2D;   /* low / alert / loss — official */
+  --brand-yellow:      #F1CE32;   /* caution / highlight — official */
+  --brand-green:       #6FC448;   /* peak / gain / success — official */
+
+  /* Derived intermediates — NOT in the manual, but useful for smoother
+     gradients and 5-step status systems. Use sparingly. */
+  --brand-orange:      #E67A2F;   /* derived: red → yellow midpoint */
+  --brand-lime:        #A6C93D;   /* derived: yellow → green midpoint */
+
+  /* The signature gradient — re-create the meter as a usable surface.
+     Use ONLY for: hero accents, charged data viz, the "energized" state.
+     Do NOT use as a generic page background — it will overwhelm. */
+  --gradient-meter:
+    linear-gradient(90deg,
+      var(--brand-red)    0%,
+      var(--brand-yellow) 50%,
+      var(--brand-green)  100%);
+
+  --gradient-meter-arc:
+    conic-gradient(from 220deg at 50% 65%,
+      var(--brand-red)    0deg,
+      var(--brand-yellow) 70deg,
+      var(--brand-green)  140deg);
+
+  /* 5-stop variant for charts that need finer status granularity. */
+  --gradient-meter-5:
+    linear-gradient(90deg,
+      var(--brand-red)    0%,
+      var(--brand-orange) 28%,
+      var(--brand-yellow) 52%,
+      var(--brand-lime)   76%,
+      var(--brand-green)  100%);
+
+  /* Subtle navy-charge gradient — the "calm" hero treatment.
+     For dark sections that need depth without using the meter spectrum. */
+  --gradient-navy-charge:
+    radial-gradient(ellipse 80% 60% at 50% 0%,
+      #1A3A55 0%, var(--brand-navy) 60%);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     NEUTRALS — ingizer "paper" stack
+     A cool, slightly-blue-tinted neutral, sympathetic to the navy.
+     ─────────────────────────────────────────────────────────────────────── */
+  --neutral-0:    #FFFFFF;
+  --neutral-50:   #F7F9FB;
+  --neutral-100:  #EEF2F6;
+  --neutral-200:  #E1E7ED;
+  --neutral-300:  #CBD4DD;
+  --neutral-400:  #9BA8B5;
+  --neutral-500:  #6B7884;
+  --neutral-600:  #4B5763;
+  --neutral-700:  #313C48;
+  --neutral-800:  #1B2632;
+  --neutral-900:  #0E1822;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     SEMANTIC COLORS  — light theme defaults
+     Map the brand palette onto product roles. Components reference these,
+     not the raw brand tokens, so the system can re-theme cleanly.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  /* Surfaces */
+  --bg-page:      var(--neutral-50);
+  --bg-surface:   var(--neutral-0);
+  --bg-raised:    var(--neutral-0);
+  --bg-sunken:    var(--neutral-100);
+  --bg-inverse:   var(--brand-navy);
+
+  /* Foreground / text — three-tier hierarchy */
+  --fg-1:         var(--brand-navy);   /* primary text, headings */
+  --fg-2:         var(--neutral-600);  /* body, secondary text */
+  --fg-3:         var(--neutral-500);  /* tertiary, captions, helper */
+  --fg-disabled:  var(--neutral-400);
+  --fg-on-brand:  var(--neutral-0);    /* text on navy / on green */
+  --fg-link:      var(--brand-navy);
+  --fg-link-hover: var(--brand-green);
+
+  /* Borders / dividers */
+  --border-subtle:    var(--neutral-200);
+  --border-default:   var(--neutral-300);
+  --border-strong:    var(--neutral-400);
+  --border-focus:     var(--brand-green);
+
+  /* Action / primary CTA */
+  --action-primary-bg:        var(--brand-navy);
+  --action-primary-bg-hover:  #243648;        /* navy + lift */
+  --action-primary-bg-active: #0D1620;
+  --action-primary-fg:        var(--neutral-0);
+
+  --action-accent-bg:         var(--brand-green);
+  --action-accent-bg-hover:   #5FAF3D;
+  --action-accent-bg-active:  #4F9A30;
+  --action-accent-fg:         var(--brand-navy);
+
+  --action-ghost-fg:          var(--brand-navy);
+  --action-ghost-bg-hover:    var(--neutral-100);
+
+  /* Status — semantic mapping of the meter spectrum */
+  --status-danger:    var(--brand-red);
+  --status-danger-bg: #FBE5E5;
+  --status-warning:   var(--brand-orange);
+  --status-warning-bg:#FBEFE0;
+  --status-caution:   var(--brand-yellow);
+  --status-caution-bg:#FCF6D6;
+  --status-success:   var(--brand-green);
+  --status-success-bg:#E5F4DD;
+  --status-info:      #2B7FE5;
+  --status-info-bg:   #E5F0FE;
+
+  /* Data viz — ordered series for charts. Designed to be distinguishable
+     even when the meter spectrum is being used elsewhere. */
+  --chart-1: var(--brand-navy);
+  --chart-2: var(--brand-green);
+  --chart-3: var(--brand-orange);
+  --chart-4: #2B7FE5;
+  --chart-5: #8B5CF6;
+  --chart-6: var(--brand-red);
+  --chart-7: var(--brand-yellow);
+  --chart-8: var(--neutral-500);
+
+  /* Selection */
+  --selection-bg: #E5F4DD;
+  --selection-fg: var(--brand-navy);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     TYPOGRAPHY — base
+     ─────────────────────────────────────────────────────────────────────── */
+  /* Official: Altone (Thin 200, Regular 400, Bold 700).
+     Substituted by Manrope until licensed font files are dropped into
+     assets/fonts/. Once present, change 'Manrope' to 'Altone' below. */
+  --font-display: 'Altone', 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-body:    'Altone', 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Weights — the manual ships only Thin/Regular/Bold. Medium/Semibold are
+     substitution-only fallbacks while Manrope is in place. */
+  --weight-thin:     200;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Type scale — modular, 1.25 minor third for display, 1.125 for body.
+     Designed for 16px base. Use these tokens via the semantic h1/h2/p
+     classes below, not raw on elements. */
+  --fs-3xs:  11px;
+  --fs-2xs:  12px;
+  --fs-xs:   13px;
+  --fs-sm:   14px;
+  --fs-md:   16px;   /* body default */
+  --fs-lg:   18px;
+  --fs-xl:   20px;
+  --fs-2xl:  24px;
+  --fs-3xl:  30px;
+  --fs-4xl:  38px;
+  --fs-5xl:  48px;
+  --fs-6xl:  64px;
+  --fs-7xl:  80px;
+
+  /* Line heights — keep tight on display, loose on body */
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.65;
+
+  /* Letter-spacing — Poppins runs slightly wide; tighten display */
+  --tracking-tightest: -0.04em;
+  --tracking-tight:    -0.02em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.04em;
+  --tracking-widest:   0.12em;   /* eyebrows / overlines */
+
+  /* ───────────────────────────────────────────────────────────────────────
+     SPACING — 4px base, doubling/half steps where useful
+     ─────────────────────────────────────────────────────────────────────── */
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     RADII — soft, not pillowy. Match the rounded geometric feel of the logo.
+     ─────────────────────────────────────────────────────────────────────── */
+  --radius-xs:    4px;
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+  --radius-2xl:   28px;
+  --radius-pill:  9999px;
+  --radius-circle:50%;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     SHADOWS — subtle, navy-tinted (not pure black) so they sit on neutrals
+     without feeling "stamped on". Two systems: elevation (cards/menus) and
+     focus rings (interaction).
+     ─────────────────────────────────────────────────────────────────────── */
+  --shadow-xs:  0 1px 2px rgba(23, 34, 46, 0.06);
+  --shadow-sm:  0 2px 4px rgba(23, 34, 46, 0.06), 0 1px 2px rgba(23, 34, 46, 0.04);
+  --shadow-md:  0 4px 12px rgba(23, 34, 46, 0.08), 0 2px 4px rgba(23, 34, 46, 0.04);
+  --shadow-lg:  0 12px 28px rgba(23, 34, 46, 0.12), 0 4px 8px rgba(23, 34, 46, 0.06);
+  --shadow-xl:  0 24px 48px rgba(23, 34, 46, 0.16), 0 8px 16px rgba(23, 34, 46, 0.08);
+
+  /* Focus ring — green to echo the "peak" end of the meter. */
+  --ring-focus: 0 0 0 3px rgba(111, 196, 72, 0.40);
+  --ring-error: 0 0 0 3px rgba(219, 45, 45, 0.40);
+
+  /* Inner shadow for inset surfaces (e.g. sunken cards, code blocks) */
+  --shadow-inset: inset 0 1px 2px rgba(8, 28, 42, 0.06);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     MOTION — restrained, "snappy fintech" not "playful consumer"
+     ─────────────────────────────────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);   /* light overshoot */
+
+  --dur-instant: 80ms;
+  --dur-fast:    150ms;
+  --dur-base:    220ms;
+  --dur-slow:    400ms;
+  --dur-slower:  700ms;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     LAYOUT
+     ─────────────────────────────────────────────────────────────────────── */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl:1440px;
+
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  100;
+  --z-overlay: 1000;
+  --z-modal:   2000;
+  --z-toast:   3000;
+  --z-top:     9999;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   DARK THEME — re-map semantics. Brand tokens stay constant.
+   Apply with [data-theme="dark"] on <html> or any container.
+   ─────────────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-page:      var(--brand-navy-900);
+  --bg-surface:   var(--brand-navy);
+  --bg-raised:    var(--brand-navy-800);
+  --bg-sunken:    var(--brand-navy-900);
+  --bg-inverse:   var(--neutral-0);
+
+  --fg-1:         #F2F6FA;
+  --fg-2:         #B6C2CE;
+  --fg-3:         #8395A4;
+  --fg-disabled:  #4B5763;
+  --fg-on-brand:  var(--brand-navy);
+  --fg-link:      #F2F6FA;
+  --fg-link-hover: var(--brand-green);
+
+  --border-subtle:  rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.14);
+  --border-strong:  rgba(255, 255, 255, 0.24);
+
+  --action-primary-bg:        var(--brand-green);
+  --action-primary-bg-hover:  #5FAF3D;
+  --action-primary-bg-active: #4F9A30;
+  --action-primary-fg:        var(--brand-navy);
+
+  --action-ghost-fg:          #F2F6FA;
+  --action-ghost-bg-hover:    rgba(255, 255, 255, 0.06);
+
+  --status-danger-bg:  rgba(219, 45, 45, 0.14);
+  --status-warning-bg: rgba(230, 122, 47, 0.14);
+  --status-caution-bg: rgba(241, 206, 50, 0.14);
+  --status-success-bg: rgba(111, 196, 72, 0.16);
+  --status-info-bg:    rgba(43, 127, 229, 0.14);
+
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm:  0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg:  0 12px 28px rgba(0, 0, 0, 0.5);
+  --shadow-xl:  0 24px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SEMANTIC TYPOGRAPHY — apply via class. Components should use these, not
+   raw font-size tokens, so the system re-scales coherently.
+   ─────────────────────────────────────────────────────────────────────── */
+
+body, .text-body {
+  font-family: var(--font-body);
+  font-size:   var(--fs-md);
+  font-weight: var(--weight-regular);
+  line-height: var(--lh-normal);
+  color:       var(--fg-1);
+  background:  var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+/* Display — for hero / marketing. The brand voice. */
+.h-display {
+  font-family: var(--font-display);
+  font-size:   var(--fs-7xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tightest);
+  color: var(--fg-1);
+}
+
+/* Headings — product hierarchy */
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-5xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-4xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+h4, .h4 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+h5, .h5 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+h6, .h6 {
+  font-family: var(--font-display);
+  font-size:   var(--fs-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+
+/* Body variants */
+p, .p {
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+.lede {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--weight-regular);
+  color: var(--fg-2);
+}
+.small {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+.caption {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-normal);
+  color: var(--fg-3);
+}
+
+/* Eyebrow / overline — uppercase, wide-tracked label */
+.eyebrow {
+  font-size: var(--fs-2xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--fg-3);
+}
+
+/* Numerics — tabular, for tables and data viz */
+.numeric, td.numeric, .tabular {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Code / mono */
+code, kbd, samp, pre, .mono {
+  font-family: var(--font-mono);
+  font-size:   0.92em;
+}
+code {
+  background: var(--bg-sunken);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-xs);
+  color: var(--fg-1);
+}
+
+/* Link */
+a {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: color-mix(in oklab, var(--fg-link) 30%, transparent);
+  transition: color var(--dur-fast) var(--ease-out),
+              text-decoration-color var(--dur-fast) var(--ease-out);
+}
+a:hover {
+  color: var(--fg-link-hover);
+  text-decoration-color: currentColor;
+}
+
+/* Hashtag flourish — echoes #EmpowerYourBusiness in the wordmark */
+.hashtag {
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+.hashtag::before { content: "#"; opacity: 0.5; }
+
+/* Default focus visible — accessibility floor */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-focus);
+  border-radius: var(--radius-sm);
+}

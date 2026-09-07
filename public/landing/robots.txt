@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /panel/
+Disallow: /app/api/
+
+Sitemap: https://igeogo.ingizer.com/sitemap.xml

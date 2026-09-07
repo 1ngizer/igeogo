@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>igeogo · Panel de administración</title>
+  <link rel="icon" href="/assets/isotipo.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bg: #f4f6f8; --card: #fff; --ink: #0C1116; --muted: #5A6672;
+      --brand: #12A9E0; --brand-d: #0E86B4; --gold: #F5B912; --line: #e3e9ef;
+      --danger: #E5392B; --ok: #1f9d55; --warn: #e0a800;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg); color: var(--ink); }
+    header { background: #0C1116; color: #fff; padding: 14px 20px; border-bottom: 3px solid var(--brand);
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    header .logomark { width: 34px; height: 34px; flex: none; }
+    header h1 { font-size: 18px; margin: 0; font-weight: 700; letter-spacing: .3px; }
+    header .sub { font-size: 12px; opacity: .85; }
+    header .spacer { flex: 1; }
+    header button { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.35);
+      padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+    header button:hover { background: rgba(255,255,255,.28); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tabs button { background: var(--card); border: 1px solid var(--line); color: var(--muted);
+      padding: 9px 16px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600; }
+    .tabs button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+      padding: 18px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(20,30,40,.05); }
+    .card h2 { margin: 0 0 14px; font-size: 16px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; font-weight: 600; }
+    input, select, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line);
+      border-radius: 9px; font-size: 14px; font-family: inherit; background: #fff; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand); border-color: var(--brand); }
+    .btn { background: var(--brand); color: #fff; border: none; padding: 10px 18px; border-radius: 9px;
+      cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 14px; }
+    .btn:hover { background: var(--brand-d); }
+    .btn.sm { padding: 5px 10px; font-size: 12px; margin: 0; }
+    .btn.danger { background: var(--danger); }
+    .btn.ghost { background: #eef2f5; color: var(--ink); }
+    #map, #umap { height: 340px; border-radius: 10px; border: 1px solid var(--line); z-index: 0; }
+    .coords { display: flex; gap: 10px; }
+    .search-row { display: flex; gap: 8px; }
+    .search-row input { flex: 1; }
+    .results { list-style: none; margin: 6px 0 0; padding: 0; max-height: 130px; overflow: auto; }
+    .results li { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 4px;
+      cursor: pointer; font-size: 13px; }
+    .results li:hover { background: #eef7f5; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
+    .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .pill.cat { background: #e7f0ff; color: #2a5db0; }
+    .pill.ok { background: #e3f6ea; color: var(--ok); }
+    .pill.bad { background: #fbe4e4; color: var(--danger); }
+    .pill.gray { background: #eceff2; color: var(--muted); }
+    .muted { color: var(--muted); font-size: 12px; }
+    .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+      background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 10px; font-size: 14px;
+      opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 9999; }
+    .toast.show { opacity: 1; }
+    .toast.err { background: var(--danger); }
+    /* Login overlay */
+    .overlay { position: fixed; inset: 0; background: rgba(20,30,40,.55); display: flex;
+      align-items: center; justify-content: center; z-index: 10000; }
+    .overlay .box { background: #fff; padding: 26px; border-radius: 14px; width: 340px; max-width: 90%; }
+    .overlay h3 { margin: 0 0 6px; }
+    .hidden { display: none !important; }
+    .empty { color: var(--muted); font-size: 13px; padding: 12px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logomark" src="/assets/isotipo.svg" alt="igeogo" width="34" height="34" />
+    <div>
+      <h1>igeogo · Panel</h1>
+      <div class="sub">Marketing de proximidad — administración</div>
+    </div>
+    <div class="spacer"></div>
+    <button id="logoutBtn">Cambiar clave</button>
+  </header>
+
+  <div class="wrap">
+    <div class="tabs">
+      <button data-tab="comercios" class="active">🏪 Comercios</button>
+      <button data-tab="cupones">🎁 Cupones</button>
+      <button data-tab="usuarios">👥 Usuarios</button>
+      <button data-tab="simulador">🎯 Simulador</button>
+      <button data-tab="precios">💲 Precios</button>
+      <button data-tab="campanas">📣 Campañas</button>
+      <button data-tab="leads">📥 Leads</button>
+    </div>
+
+    <!-- ================= COMERCIOS ================= -->
+    <section id="tab-comercios">
+      <div class="card">
+        <h2>Nuevo comercio</h2>
+        <div class="grid2">
+          <div>
+            <label>Nombre</label>
+            <input id="m-name" placeholder="Panadería El Trigo" />
+            <label>Categoría</label>
+            <select id="m-category">
+              <option value="comida">Comida</option>
+              <option value="ropa">Ropa</option>
+              <option value="servicios">Servicios</option>
+              <option value="hoteles">Hoteles</option>
+              <option value="belleza">Belleza</option>
+              <option value="salud">Salud</option>
+              <option value="entretenimiento">Entretenimiento</option>
+              <option value="deportes">Deportes</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="viajes">Viajes</option>
+            </select>
+            <label>País</label>
+            <select id="m-country"></select>
+            <input id="m-country-other" class="hidden" placeholder="Escribe el país" style="margin-top:6px" />
+            <label>Ciudad</label>
+            <select id="m-city"></select>
+            <input id="m-city-other" class="hidden" placeholder="Escribe la ciudad" style="margin-top:6px" />
+            <label>Dirección</label>
+            <input id="m-address" placeholder="Calle 123 #45" />
+            <label>Teléfono (para el botón "Llamar")</label>
+            <input id="m-phone" placeholder="+57 300 123 4567" />
+            <label>Foto del local (URL pública)</label>
+            <input id="m-photo" placeholder="https://...jpg" />
+            <div class="coords">
+              <div style="flex:1"><label>Calificación (0-5)</label><input id="m-rating" type="number" step="0.1" min="0" max="5" placeholder="4.5" /></div>
+              <div style="flex:1"><label>Nº de reseñas</label><input id="m-reviews" type="number" min="0" placeholder="120" /></div>
+            </div>
+            <label>Coordenadas (haz clic en el mapa o busca)</label>
+            <div class="coords">
+              <input id="m-lat" placeholder="Latitud" />
+              <input id="m-lng" placeholder="Longitud" />
+            </div>
+            <button class="btn" id="m-save">Crear comercio</button>
+          </div>
+          <div>
+            <label>Buscar dirección para ubicar en el mapa</label>
+            <div class="search-row">
+              <input id="m-search" placeholder="Ej: Parque de la 93, Bogotá" />
+              <button class="btn ghost" id="m-search-btn" style="margin:0">Buscar</button>
+            </div>
+            <ul class="results" id="m-results"></ul>
+            <div id="map" style="margin-top:8px"></div>
+            <div class="muted" style="margin-top:6px">Clic en el mapa para fijar el punto exacto del local.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Comercios registrados (<span id="m-count">0</span>)</h2>
+        <div id="m-list"></div>
+      </div>
+    </section>
+
+    <!-- ================= CUPONES ================= -->
+    <section id="tab-cupones" class="hidden">
+      <div class="card">
+        <h2>Nuevo cupón</h2>
+        <label>Comercio</label>
+        <select id="c-merchant"></select>
+        <div class="grid2">
+          <div>
+            <label>Título de la oferta</label>
+            <input id="c-title" placeholder="2x1 en café" />
+          </div>
+          <div>
+            <label>Vence el (opcional)</label>
+            <input id="c-expires" type="date" />
+          </div>
+        </div>
+        <label>Descripción (opcional)</label>
+        <textarea id="c-desc" rows="2" placeholder="Válido de lunes a viernes"></textarea>
+        <button class="btn" id="c-save">Crear cupón</button>
+      </div>
+
+      <div class="card">
+        <h2>Cupones activos (<span id="c-count">0</span>)</h2>
+        <div id="c-list"></div>
+      </div>
+    </section>
+
+    <!-- ================= USUARIOS ================= -->
+    <section id="tab-usuarios" class="hidden">
+      <div class="card">
+        <h2>Mapa de usuarios y comercios</h2>
+        <div class="muted" style="margin-bottom:8px">
+          🟢 comercio &nbsp;·&nbsp; 🔵 usuario con ofertas cerca &nbsp;·&nbsp; 🔴 usuario sin ofertas (demanda no cubierta)
+        </div>
+        <div id="umap"></div>
+      </div>
+      <div class="card">
+        <h2>Usuarios (<span id="u-count">0</span>) <button class="btn ghost sm" id="u-refresh" style="margin-left:8px">Actualizar</button></h2>
+        <div style="overflow:auto">
+          <table>
+            <thead><tr>
+              <th>Nombre</th><th>Teléfono</th><th>Estado</th><th>Intereses</th>
+              <th>Última ubicación</th><th>Registros</th><th>Ofertas cerca</th><th>Última actividad</th>
+            </tr></thead>
+            <tbody id="u-body"></tbody>
+          </table>
+        </div>
+        <div id="u-empty" class="empty hidden">Aún no hay usuarios. Escríbele al bot para generar el primero.</div>
+      </div>
+    </section>
+
+    <!-- ================= SIMULADOR ================= -->
+    <section id="tab-simulador" class="hidden">
+      <div class="card">
+        <h2>Simulador de recomendaciones</h2>
+        <div class="muted" style="margin-bottom:10px">
+          Elige un usuario y mira cuántas ofertas encajan con sus criterios (intereses + cercanía).
+        </div>
+        <div class="grid2">
+          <div>
+            <label>Usuario</label>
+            <select id="s-user"></select>
+            <div id="s-criteria" class="muted" style="margin-top:8px"></div>
+            <label style="margin-top:14px">Radio de búsqueda: <b id="s-radius-val">2.0 km</b></label>
+            <input id="s-radius" type="range" min="200" max="10000" step="100" value="2000" style="width:100%" />
+            <label style="display:flex;align-items:center;gap:8px;margin-top:12px;cursor:pointer">
+              <input id="s-ignorecat" type="checkbox" style="width:auto" />
+              Ignorar categoría (mostrar todo lo cercano)
+            </label>
+          </div>
+          <div id="smap"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div id="s-summary" style="font-size:15px;margin-bottom:12px"></div>
+        <div style="overflow:auto">
+          <table>
+            <thead><tr><th>Estado</th><th>Oferta</th><th>Comercio</th><th>Categoría</th><th>Distancia</th></tr></thead>
+            <tbody id="s-body"></tbody>
+          </table>
+        </div>
+        <div id="s-empty" class="empty hidden"></div>
+      </div>
+    </section>
+
+    <!-- ================= PRECIOS ================= -->
+    <section id="tab-precios" class="hidden">
+      <div class="card">
+        <h2>Precio por mensaje</h2>
+        <div class="muted" style="margin-bottom:8px">Costo de un mensaje suelto (pago por uso). Los clientes lo ven en la app.</div>
+        <div class="row" style="max-width:280px">
+          <input id="pr-permsg" type="number" style="width:140px" />
+          <span class="muted">COP por mensaje</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Planes comerciales</h2>
+        <div class="muted" style="margin-bottom:10px">Edita nombres, precios, mensajes y campañas de cada plan.</div>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Plan</th><th>Precio (COP)</th><th>Mensajes</th><th>Campañas/mes</th><th></th></tr></thead>
+          <tbody id="pr-body"></tbody></table>
+        </div>
+        <button class="btn ghost sm" id="pr-add" style="margin-top:10px">+ Agregar plan</button>
+      </div>
+      <button class="btn" id="pr-save">Guardar precios</button>
+    </section>
+
+    <!-- ================= CAMPAÑAS ================= -->
+    <section id="tab-campanas" class="hidden">
+      <div class="card">
+        <h2>Campañas de clientes (<span id="cm-count">0</span>) <button class="btn ghost sm" id="cm-refresh" style="margin-left:8px">Actualizar</button></h2>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Cliente</th><th>Producto</th><th>Categoría</th><th>Dcto</th><th>Alcance</th><th>Plan</th><th>Presupuesto</th><th>Estado</th><th>Acción</th></tr></thead>
+          <tbody id="cm-body"></tbody></table>
+        </div>
+        <div id="cm-empty" class="empty hidden">Aún no hay campañas.</div>
+      </div>
+    </section>
+
+    <!-- ================= LEADS ================= -->
+    <section id="tab-leads" class="hidden">
+      <div class="card">
+        <h2>Leads de comercios (<span id="ld-count">0</span>) <button class="btn ghost sm" id="ld-refresh" style="margin-left:8px">Actualizar</button></h2>
+        <div class="muted" style="margin-bottom:10px">Comercios que se registraron desde la landing page.</div>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Comercio</th><th>Contacto</th><th>Ciudad</th><th>Qué promociona</th><th>Fecha</th><th>Estado</th></tr></thead>
+          <tbody id="ld-body"></tbody></table>
+        </div>
+        <div id="ld-empty" class="empty hidden">Aún no hay leads.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Login -->
+  <div class="overlay" id="login">
+    <div class="box">
+      <h3>Acceso al panel</h3>
+      <p class="muted">Introduce la clave de administración (ADMIN_API_KEY).</p>
+      <input id="key-input" type="password" placeholder="clave de administración" />
+      <button class="btn" id="key-save" style="width:100%">Entrar</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---------- Estado / helpers ----------
+    const MB_TOKEN = 'pk.eyJ1IjoiaW5naXplciIsImEiOiJjbXJkbDE2cjEwZmNrMndwc3NkdXhvNWFzIn0.efYiW6IPSiHD_ROlaE7c6g';
+    const KEY = 'igeogo_admin_key';
+    let adminKey = localStorage.getItem(KEY) || '';
+    const $ = (s) => document.querySelector(s);
+
+    function toast(msg, err) {
+      const t = $('#toast');
+      t.textContent = msg; t.className = 'toast show' + (err ? ' err' : '');
+      setTimeout(() => (t.className = 'toast'), 2600);
+    }
+    function showLogin() { $('#login').classList.remove('hidden'); }
+    function hideLogin() { $('#login').classList.add('hidden'); }
+
+    async function api(path, opts = {}) {
+      const res = await fetch(path, {
+        ...opts,
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey, ...(opts.headers || {}) },
+      });
+      if (res.status === 401) { showLogin(); throw new Error('No autorizado'); }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+      return data;
+    }
+
+    // ---------- Login ----------
+    $('#key-save').onclick = async () => {
+      adminKey = $('#key-input').value.trim();
+      localStorage.setItem(KEY, adminKey);
+      try { await api('/admin/merchants'); hideLogin(); init(); }
+      catch { toast('Clave incorrecta', true); }
+    };
+    $('#logoutBtn').onclick = () => { localStorage.removeItem(KEY); adminKey = ''; showLogin(); };
+
+    // ---------- Tabs ----------
+    document.querySelectorAll('.tabs button').forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll('.tabs button').forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        ['comercios', 'cupones', 'usuarios', 'simulador', 'precios', 'campanas'].forEach((t) =>
+          $('#tab-' + t).classList.toggle('hidden', t !== b.dataset.tab)
+        );
+        if (b.dataset.tab === 'comercios' && map) setTimeout(() => map.invalidateSize(), 50);
+        if (b.dataset.tab === 'cupones') loadMerchantsIntoSelect();
+        if (b.dataset.tab === 'usuarios') loadUsers();
+        if (b.dataset.tab === 'simulador') loadSimulator();
+        if (b.dataset.tab === 'precios') loadPricing();
+        if (b.dataset.tab === 'campanas') loadCampaigns();
+        if (b.dataset.tab === 'leads') loadLeads();
+      };
+    });
+
+    // ---------- Mapa de comercios (picker) ----------
+    let map, pickMarker;
+    function initMap() {
+      map = L.map('map').setView([4.6512, -74.0587], 12); // Bogotá por defecto
+      L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/512/{z}/{x}/{y}@2x?access_token=' + MB_TOKEN, {
+        maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: '© Mapbox © OpenStreetMap',
+      }).addTo(map);
+      map.on('click', (e) => setPick(e.latlng.lat, e.latlng.lng));
+      // Centrar en la ubicación del navegador si se permite
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (p) => map.setView([p.coords.latitude, p.coords.longitude], 14),
+          () => {}
+        );
+      }
+    }
+    function setPick(lat, lng) {
+      $('#m-lat').value = (+lat).toFixed(6);
+      $('#m-lng').value = (+lng).toFixed(6);
+      if (pickMarker) pickMarker.setLatLng([lat, lng]);
+      else pickMarker = L.marker([lat, lng]).addTo(map);
+    }
+    // Buscar dirección (Nominatim / OpenStreetMap)
+    $('#m-search-btn').onclick = doSearch;
+    $('#m-search').addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
+    async function doSearch() {
+      const q = $('#m-search').value.trim();
+      if (!q) return;
+      const ul = $('#m-results'); ul.innerHTML = '<li class="muted">Buscando…</li>';
+      try {
+        const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + encodeURIComponent(q));
+        const list = await r.json();
+        ul.innerHTML = '';
+        if (!list.length) { ul.innerHTML = '<li class="muted">Sin resultados</li>'; return; }
+        list.forEach((it) => {
+          const li = document.createElement('li');
+          li.textContent = it.display_name;
+          li.onclick = () => {
+            map.setView([+it.lat, +it.lon], 16);
+            setPick(+it.lat, +it.lon);
+            if (!$('#m-address').value) $('#m-address').value = it.display_name.split(',').slice(0, 2).join(', ');
+            ul.innerHTML = '';
+          };
+          ul.appendChild(li);
+        });
+      } catch { ul.innerHTML = '<li class="muted">Error al buscar</li>'; }
+    }
+
+    // ---------- País / Ciudad ----------
+    const COUNTRIES = ['Colombia', 'Argentina', 'Bolivia', 'Brasil', 'Canadá', 'Chile',
+      'Costa Rica', 'Cuba', 'Ecuador', 'El Salvador', 'Estados Unidos', 'Guatemala', 'Haití',
+      'Honduras', 'México', 'Nicaragua', 'Panamá', 'Paraguay', 'Perú', 'Puerto Rico',
+      'República Dominicana', 'Uruguay', 'Venezuela'];
+    const CO_CITIES = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Cúcuta',
+      'Bucaramanga', 'Pereira', 'Santa Marta', 'Ibagué', 'Manizales', 'Villavicencio', 'Pasto',
+      'Montería', 'Neiva', 'Armenia', 'Popayán', 'Valledupar', 'Sincelejo', 'Riohacha', 'Tunja',
+      'Florencia', 'Yopal', 'Quibdó', 'Soacha', 'Bello', 'Itagüí', 'Envigado', 'Palmira',
+      'Buenaventura', 'Soledad', 'Dosquebradas', 'Floridablanca', 'Girón', 'Barrancabermeja',
+      'Zipaquirá', 'Facatativá', 'Tuluá', 'Girardot', 'San Andrés'];
+    const OTHER_C = '__otro__', OTHER_CITY = '__otros__';
+
+    function setupLocationSelectors() {
+      const cs = $('#m-country');
+      cs.innerHTML = COUNTRIES.map((c) => `<option value="${c}">${c}</option>`).join('')
+        + `<option value="${OTHER_C}">Otro (escribir)…</option>`;
+      cs.value = 'Colombia';
+      cs.onchange = () => {
+        $('#m-country-other').classList.toggle('hidden', cs.value !== OTHER_C);
+        fillCities();
+      };
+      fillCities();
+    }
+    function fillCities() {
+      const country = $('#m-country').value;
+      const sel = $('#m-city');
+      if (country === 'Colombia') {
+        sel.innerHTML = CO_CITIES.map((c) => `<option value="${c}">${c}</option>`).join('')
+          + `<option value="${OTHER_CITY}">Otros (escribir)…</option>`;
+      } else {
+        sel.innerHTML = `<option value="${OTHER_CITY}">Escribir ciudad…</option>`;
+      }
+      sel.onchange = onCityChange;
+      onCityChange();
+    }
+    async function onCityChange() {
+      const isOther = $('#m-city').value === OTHER_CITY;
+      $('#m-city-other').classList.toggle('hidden', !isOther);
+      if (isOther) return;
+      // Centrar el mapa en la ciudad elegida (best-effort con Nominatim).
+      const country = $('#m-country').value === OTHER_C ? $('#m-country-other').value : $('#m-country').value;
+      const q = $('#m-city').value + ', ' + country;
+      try {
+        const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q));
+        const list = await r.json();
+        if (list[0] && map) { map.setView([+list[0].lat, +list[0].lon], 13); }
+      } catch {}
+    }
+    function getCountry() { const v = $('#m-country').value; return v === OTHER_C ? $('#m-country-other').value.trim() : v; }
+    function getCity() { const v = $('#m-city').value; return v === OTHER_CITY ? $('#m-city-other').value.trim() : v; }
+
+    // ---------- Crear comercio ----------
+    $('#m-save').onclick = async () => {
+      const body = {
+        name: $('#m-name').value.trim(),
+        category: $('#m-category').value,
+        country: getCountry(),
+        city: getCity(),
+        address: $('#m-address').value.trim(),
+        phone: $('#m-phone').value.trim(),
+        photoUrl: $('#m-photo').value.trim(),
+        rating: parseFloat($('#m-rating').value) || 0,
+        reviews: parseInt($('#m-reviews').value, 10) || 0,
+        lat: parseFloat($('#m-lat').value),
+        lng: parseFloat($('#m-lng').value),
+      };
+      if (!body.name || isNaN(body.lat) || isNaN(body.lng)) {
+        return toast('Falta nombre o ubicación (clic en el mapa)', true);
+      }
+      try {
+        await api('/admin/merchants', { method: 'POST', body: JSON.stringify(body) });
+        toast('Comercio creado ✅');
+        $('#m-name').value = $('#m-address').value = $('#m-phone').value = $('#m-photo').value = ''; $('#m-rating').value = $('#m-reviews').value = ''; $('#m-lat').value = $('#m-lng').value = '';
+        if (pickMarker) { map.removeLayer(pickMarker); pickMarker = null; }
+        loadMerchants();
+      } catch (e) { toast(e.message, true); }
+    };
+
+    // ---------- Listar comercios ----------
+    async function loadMerchants() {
+      const list = await api('/admin/merchants');
+      $('#m-count').textContent = list.length;
+      const box = $('#m-list');
+      if (!list.length) { box.innerHTML = '<div class="empty">Aún no hay comercios.</div>'; return; }
+      box.innerHTML = '<div style="overflow:auto"><table><thead><tr><th>Nombre</th><th>Categoría</th><th>Ciudad / País</th><th>Dirección</th><th>Coordenadas</th><th></th></tr></thead><tbody></tbody></table></div>';
+      const tb = box.querySelector('tbody');
+      list.forEach((m) => {
+        const [lng, lat] = m.location.coordinates;
+        const cityCountry = [m.city, m.country].filter(Boolean).join(', ') || '—';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><b>${esc(m.name)}</b></td>
+          <td><span class="pill cat">${esc(m.category)}</span></td>
+          <td>${esc(cityCountry)}</td>
+          <td>${esc(m.address || '—')}</td>
+          <td class="muted">${lat.toFixed(4)}, ${lng.toFixed(4)}</td>
+          <td><button class="btn danger sm" data-id="${m._id}">Borrar</button></td>`;
+        tr.querySelector('button').onclick = async () => {
+          if (!confirm('¿Borrar "' + m.name + '" y sus cupones?')) return;
+          await api('/admin/merchants/' + m._id, { method: 'DELETE' });
+          toast('Comercio borrado'); loadMerchants();
+        };
+        tb.appendChild(tr);
+      });
+    }
+
+    // ---------- Cupones ----------
+    async function loadMerchantsIntoSelect() {
+      const list = await api('/admin/merchants');
+      const sel = $('#c-merchant');
+      sel.innerHTML = list.map((m) => `<option value="${m._id}">${esc(m.name)} (${esc(m.category)})</option>`).join('')
+        || '<option value="">— crea un comercio primero —</option>';
+      loadCoupons();
+    }
+    $('#c-save').onclick = async () => {
+      const body = {
+        merchantId: $('#c-merchant').value,
+        title: $('#c-title').value.trim(),
+        description: $('#c-desc').value.trim(),
+        expiresAt: $('#c-expires').value || null,
+      };
+      if (!body.merchantId || !body.title) return toast('Falta comercio o título', true);
+      try {
+        await api('/admin/coupons', { method: 'POST', body: JSON.stringify(body) });
+        toast('Cupón creado ✅');
+        $('#c-title').value = $('#c-desc').value = ''; $('#c-expires').value = '';
+        loadCoupons();
+      } catch (e) { toast(e.message, true); }
+    };
+    async function loadCoupons() {
+      const list = await api('/admin/coupons');
+      $('#c-count').textContent = list.length;
+      const box = $('#c-list');
+      if (!list.length) { box.innerHTML = '<div class="empty">Aún no hay cupones.</div>'; return; }
+      box.innerHTML = '<div style="overflow:auto"><table><thead><tr><th>Oferta</th><th>Comercio</th><th>Categoría</th><th>Vence</th><th></th></tr></thead><tbody></tbody></table></div>';
+      const tb = box.querySelector('tbody');
+      list.forEach((c) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><b>${esc(c.title)}</b><br><span class="muted">${esc(c.description || '')}</span></td>
+          <td>${esc(c.merchant ? c.merchant.name : '—')}</td>
+          <td><span class="pill cat">${esc(c.category)}</span></td>
+          <td class="muted">${c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : '—'}</td>
+          <td><button class="btn danger sm" data-id="${c._id}">Borrar</button></td>`;
+        tr.querySelector('button').onclick = async () => {
+          if (!confirm('¿Borrar este cupón?')) return;
+          await api('/admin/coupons/' + c._id, { method: 'DELETE' });
+          toast('Cupón borrado'); loadCoupons();
+        };
+        tb.appendChild(tr);
+      });
+    }
+
+    // ---------- Usuarios ----------
+    let umap, uLayer;
+    function initUmap() {
+      umap = L.map('umap').setView([4.6512, -74.0587], 11);
+      L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/512/{z}/{x}/{y}@2x?access_token=' + MB_TOKEN, {
+        maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: '© Mapbox © OpenStreetMap',
+      }).addTo(umap);
+      uLayer = L.layerGroup().addTo(umap);
+    }
+    function dot(color) {
+      return L.divIcon({ className: '', iconSize: [16, 16],
+        html: `<div style="width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 0 3px rgba(0,0,0,.4)"></div>` });
+    }
+    $('#u-refresh').onclick = loadUsers;
+    async function loadUsers() {
+      if (!umap) initUmap();
+      setTimeout(() => umap.invalidateSize(), 50);
+      const [users, merchants] = await Promise.all([api('/admin/users'), api('/admin/merchants')]);
+      $('#u-count').textContent = users.length;
+      uLayer.clearLayers();
+      const bounds = [];
+      merchants.forEach((m) => {
+        const [lng, lat] = m.location.coordinates;
+        L.marker([lat, lng], { icon: dot('#1f9d55') }).addTo(uLayer)
+          .bindPopup(`🏪 <b>${esc(m.name)}</b><br>${esc(m.category)}`);
+        bounds.push([lat, lng]);
+      });
+      const tb = $('#u-body'); tb.innerHTML = '';
+      $('#u-empty').classList.toggle('hidden', users.length > 0);
+      users.forEach((u) => {
+        const hist = Array.isArray(u.locations) ? u.locations : [];
+        const has = u.nearbyCoupons > 0;
+
+        // Dibuja TODO el historial: los registros antiguos como puntos grises
+        // pequeños; el más reciente coloreado según haya ofertas o no.
+        hist.forEach((l, idx) => {
+          if (!l.coordinates) return;
+          const [lng, lat] = l.coordinates;
+          const isLast = idx === hist.length - 1;
+          const color = isLast ? (has ? '#2a7de1' : '#d64545') : '#9aa7b2';
+          L.marker([lat, lng], { icon: dot(color) }).addTo(uLayer).bindPopup(
+            `👤 <b>${esc(u.profileName || u.waId)}</b><br>` +
+            `${esc(l.label || (lat.toFixed(4) + ', ' + lng.toFixed(4)))}<br>` +
+            `<span style="color:#6b7885">${new Date(l.at).toLocaleString()}</span>` +
+            (isLast ? `<br>Ofertas cerca: ${u.nearbyCoupons}` : '')
+          );
+          bounds.push([lat, lng]);
+        });
+
+        let locTxt = '<span class="muted">—</span>';
+        let near = '<span class="pill gray">sin ubicación</span>';
+        if (u.lastLocation && u.lastLocation.coordinates) {
+          const [lng, lat] = u.lastLocation.coordinates;
+          const lastHist = hist[hist.length - 1];
+          locTxt = esc((lastHist && lastHist.label) || `${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+          near = has ? `<span class="pill ok">${u.nearbyCoupons} cerca</span>`
+                     : `<span class="pill bad">0 · demanda no cubierta</span>`;
+        }
+        const cats = (u.categories || []).map((c) => `<span class="pill cat">${esc(c)}</span>`).join(' ') || '<span class="muted">—</span>';
+        const regBtn = hist.length
+          ? `<button class="btn ghost sm" data-exp>${hist.length} 📍</button>`
+          : '<span class="muted">0</span>';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${esc(u.profileName || '—')}</td><td class="muted">${esc(u.waId)}</td>
+          <td><span class="pill gray">${esc(u.state)}</span></td><td>${cats}</td>
+          <td class="muted">${locTxt}</td><td>${regBtn}</td><td>${near}</td>
+          <td class="muted">${u.updatedAt ? new Date(u.updatedAt).toLocaleString() : '—'}</td>`;
+        tb.appendChild(tr);
+
+        // Fila expandible con el historial detallado.
+        if (hist.length) {
+          const detail = document.createElement('tr');
+          detail.className = 'hidden';
+          const rows = hist.slice().reverse().map((l, i) => {
+            const [lng, lat] = l.coordinates || [0, 0];
+            return `<tr><td class="muted">#${hist.length - i}</td>
+              <td>${esc(l.label || '—')}</td>
+              <td class="muted">${lat.toFixed(5)}, ${lng.toFixed(5)}</td>
+              <td class="muted">${new Date(l.at).toLocaleString()}</td></tr>`;
+          }).join('');
+          detail.innerHTML = `<td colspan="8" style="background:#f8fafb">
+            <b style="font-size:12px">Historial de ubicaciones de ${esc(u.profileName || u.waId)}</b>
+            <table style="margin-top:6px"><thead><tr><th>#</th><th>Dirección</th><th>Coordenadas</th><th>Fecha</th></tr></thead>
+            <tbody>${rows}</tbody></table></td>`;
+          tb.appendChild(detail);
+          const btn = tr.querySelector('[data-exp]');
+          if (btn) btn.onclick = () => detail.classList.toggle('hidden');
+        }
+      });
+      if (bounds.length) umap.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
+    }
+
+    // ---------- Simulador de match ----------
+    let smap, sLayer, simUsers = [], simCoupons = [];
+
+    function initSmap() {
+      smap = L.map('smap').setView([4.6512, -74.0587], 11);
+      L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/512/{z}/{x}/{y}@2x?access_token=' + MB_TOKEN, {
+        maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: '© Mapbox © OpenStreetMap',
+      }).addTo(smap);
+      sLayer = L.layerGroup().addTo(smap);
+    }
+
+    // Distancia great-circle en metros (misma base que $near de MongoDB).
+    function distMeters(lat1, lng1, lat2, lng2) {
+      const R = 6371000, toRad = (x) => (x * Math.PI) / 180;
+      const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+      const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(a));
+    }
+
+    async function loadSimulator() {
+      if (!smap) initSmap();
+      setTimeout(() => smap.invalidateSize(), 50);
+      [simUsers, simCoupons] = await Promise.all([api('/admin/users'), api('/admin/coupons')]);
+      const sel = $('#s-user');
+      const withLoc = simUsers.filter((u) => u.lastLocation && u.lastLocation.coordinates);
+      sel.innerHTML = withLoc.length
+        ? withLoc.map((u) => `<option value="${u.waId}">${esc(u.profileName || u.waId)} — ${(u.categories || []).join(', ') || 'sin intereses'}</option>`).join('')
+        : '<option value="">— no hay usuarios con ubicación —</option>';
+      sel.onchange = runSim;
+      $('#s-radius').oninput = () => { $('#s-radius-val').textContent = ($('#s-radius').value / 1000).toFixed(1) + ' km'; runSim(); };
+      $('#s-ignorecat').onchange = runSim;
+      runSim();
+    }
+
+    function runSim() {
+      const waId = $('#s-user').value;
+      const u = simUsers.find((x) => x.waId === waId);
+      sLayer.clearLayers();
+      const tb = $('#s-body'); tb.innerHTML = '';
+      if (!u || !u.lastLocation || !u.lastLocation.coordinates) {
+        $('#s-criteria').textContent = '';
+        $('#s-summary').textContent = 'Selecciona un usuario con ubicación registrada.';
+        return;
+      }
+      const [ulng, ulat] = u.lastLocation.coordinates;
+      const radius = parseInt($('#s-radius').value, 10);
+      const ignoreCat = $('#s-ignorecat').checked;
+      const cats = u.categories || [];
+
+      $('#s-criteria').innerHTML =
+        `Intereses: ${cats.map((c) => `<span class="pill cat">${esc(c)}</span>`).join(' ') || '—'}` +
+        ` · Ubicación: ${esc((u.locations && u.locations.length && u.locations[u.locations.length - 1].label) || (ulat.toFixed(4) + ', ' + ulng.toFixed(4)))}`;
+
+      // Marcador del usuario.
+      L.marker([ulat, ulng], { icon: dot('#7b2ff7') }).addTo(sLayer).bindPopup(`👤 <b>${esc(u.profileName || u.waId)}</b>`);
+      // Círculo del radio.
+      L.circle([ulat, ulng], { radius, color: '#7b2ff7', weight: 1, fillOpacity: 0.05 }).addTo(sLayer);
+
+      const rows = simCoupons
+        .filter((c) => c.location && c.location.coordinates)
+        .map((c) => {
+          const [clng, clat] = c.location.coordinates;
+          const d = distMeters(ulat, ulng, clat, clng);
+          const within = d <= radius;
+          const catOk = ignoreCat || cats.length === 0 || cats.includes(c.category);
+          return { c, d, within, catOk, match: within && catOk };
+        })
+        .sort((a, b) => a.d - b.d);
+
+      const matches = rows.filter((r) => r.match).length;
+      const nearWrongCat = rows.filter((r) => r.within && !r.catOk).length;
+
+      $('#s-summary').innerHTML =
+        `<b style="color:${matches ? '#1f9d55' : '#d64545'}">${matches}</b> oferta(s) coinciden con sus criterios` +
+        (nearWrongCat ? ` · <b>${nearWrongCat}</b> cercana(s) de otras categorías (filtradas por su interés)` : '') +
+        ` · radio ${(radius / 1000).toFixed(1)} km${ignoreCat ? ' · (ignorando categoría)' : ''}`;
+
+      const bounds = [[ulat, ulng]];
+      rows.forEach((r) => {
+        const [clng, clat] = r.c.location.coordinates;
+        let color = '#9aa7b2', estado = '<span class="pill gray">fuera de radio</span>';
+        if (r.match) { color = '#1f9d55'; estado = '<span class="pill ok">✅ coincide</span>'; }
+        else if (r.within && !r.catOk) { color = '#e0a800'; estado = '<span class="pill" style="background:#fff3cd;color:#8a6d00">🟠 otra categoría</span>'; }
+        if (r.within) {
+          L.marker([clat, clng], { icon: dot(color) }).addTo(sLayer).bindPopup(
+            `🎁 <b>${esc(r.c.title)}</b><br>${esc(r.c.merchant ? r.c.merchant.name : '')} (${esc(r.c.category)})<br>${Math.round(r.d)} m`
+          );
+          bounds.push([clat, clng]);
+        }
+        const distTxt = r.d < 1000 ? Math.round(r.d) + ' m' : (r.d / 1000).toFixed(1) + ' km';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${estado}</td><td><b>${esc(r.c.title)}</b></td>
+          <td>${esc(r.c.merchant ? r.c.merchant.name : '—')}</td>
+          <td><span class="pill cat">${esc(r.c.category)}</span></td>
+          <td class="muted">${distTxt}</td>`;
+        tb.appendChild(tr);
+      });
+      if (bounds.length > 1) smap.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
+      else smap.setView([ulat, ulng], 14);
+    }
+
+    // ---------- Precios ----------
+    function planRow(p) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><input value="${esc(p.name || '')}" data-f="name" style="width:120px"></td>
+        <td><input type="number" value="${p.price || 0}" data-f="price" style="width:110px"></td>
+        <td><input type="number" value="${p.messages || 0}" data-f="messages" style="width:90px"></td>
+        <td><input type="number" value="${p.campaigns || 0}" data-f="campaigns" style="width:90px"></td>
+        <td><button class="btn danger sm">✕</button></td>`;
+      tr.querySelector('button').onclick = () => tr.remove();
+      return tr;
+    }
+    async function loadPricing() {
+      const p = await api('/admin/pricing');
+      $('#pr-permsg').value = p.pricePerMessage;
+      const tb = $('#pr-body'); tb.innerHTML = '';
+      (p.plans || []).forEach((pl) => tb.appendChild(planRow(pl)));
+    }
+    $('#pr-add').onclick = () => $('#pr-body').appendChild(planRow({}));
+    $('#pr-save').onclick = async () => {
+      const plans = [...document.querySelectorAll('#pr-body tr')].map((tr) => {
+        const g = (f) => tr.querySelector(`[data-f="${f}"]`).value;
+        return { name: g('name'), price: +g('price'), messages: +g('messages'), campaigns: +g('campaigns') };
+      }).filter((p) => p.name);
+      try {
+        await api('/admin/pricing', { method: 'PUT', body: JSON.stringify({ pricePerMessage: +$('#pr-permsg').value, plans }) });
+        toast('Precios guardados ✅');
+      } catch (e) { toast(e.message, true); }
+    };
+
+    // ---------- Campañas ----------
+    function cop(n) { return '$' + Math.round(n || 0).toLocaleString('es-CO'); }
+    async function loadCampaigns() {
+      const list = await api('/admin/campaigns');
+      $('#cm-count').textContent = list.length;
+      $('#cm-empty').classList.toggle('hidden', list.length > 0);
+      const tb = $('#cm-body'); tb.innerHTML = '';
+      list.forEach((c) => {
+        const tr = document.createElement('tr');
+        const sentInfo = c.status === 'enviada' ? `<br><span class="muted">${c.sentCount || 0} enviados</span>` : '';
+        const canSend = c.status !== 'enviada' && c.status !== 'rechazada';
+        tr.innerHTML = `<td>${esc(c.clienteName || c.cliente)}<br><span class="muted">${esc(c.cliente)}</span></td>
+          <td><b>${esc(c.producto)}</b></td><td><span class="pill cat">${esc(c.category)}</span></td>
+          <td>${c.discountPercent}%</td><td>${c.estimatedReach}</td><td>${esc(c.plan)}</td><td>${cop(c.budget)}</td>
+          <td><span class="pill gray">${esc(c.status)}</span>${sentInfo}</td>
+          <td style="white-space:nowrap">
+            ${canSend ? '<button class="btn sm" data-act="send">📣 Enviar</button> ' : ''}
+            <select><option value="">Estado…</option><option value="pagada">Marcar pagada</option><option value="enviada">Marcar enviada</option><option value="rechazada">Rechazar</option></select>
+          </td>`;
+        tr.querySelector('select').onchange = async (e) => {
+          if (!e.target.value) return;
+          await api('/admin/campaigns/' + c._id + '/status', { method: 'PUT', body: JSON.stringify({ status: e.target.value }) });
+          toast('Estado actualizado'); loadCampaigns();
+        };
+        const sendBtn = tr.querySelector('[data-act="send"]');
+        if (sendBtn) sendBtn.onclick = async () => {
+          if (!confirm(`¿Enviar la campaña "${c.producto}" a su audiencia por WhatsApp?\nAlcance estimado: ${c.estimatedReach} · Tope del plan: ${c.messages}`)) return;
+          sendBtn.disabled = true; sendBtn.textContent = 'Enviando…';
+          try {
+            const r = await api('/admin/campaigns/' + c._id + '/dispatch', { method: 'POST' });
+            toast(`Enviados: ${r.result.sent} de ${r.result.attempted}${r.result.failed ? ' · ' + r.result.failed + ' fallidos' : ''}`);
+            loadCampaigns();
+          } catch (err) { toast(err.message, true); sendBtn.disabled = false; sendBtn.textContent = '📣 Enviar'; }
+        };
+        tb.appendChild(tr);
+      });
+    }
+    $('#cm-refresh').onclick = loadCampaigns;
+
+    // ---------- Leads ----------
+    async function loadLeads() {
+      const list = await api('/admin/leads');
+      $('#ld-count').textContent = list.length;
+      $('#ld-empty').classList.toggle('hidden', list.length > 0);
+      const tb = $('#ld-body'); tb.innerHTML = '';
+      list.forEach((l) => {
+        const tr = document.createElement('tr');
+        const date = new Date(l.createdAt).toLocaleDateString('es-CO', { day: '2-digit', month: 'short' });
+        const opts = ['nuevo', 'contactado', 'ganado', 'perdido']
+          .map((s) => `<option value="${s}"${l.status === s ? ' selected' : ''}>${s}</option>`).join('');
+        tr.innerHTML = `<td><b>${esc(l.business)}</b></td>
+          <td>${esc(l.name || '')}<br><a href="https://wa.me/${esc(l.phone)}" target="_blank" class="muted">${esc(l.phone)}</a></td>
+          <td>${esc(l.city || '—')}</td><td class="muted">${esc(l.message || '—')}</td><td>${date}</td>
+          <td><select>${opts}</select></td>`;
+        tr.querySelector('select').onchange = async (e) => {
+          await api('/admin/leads/' + l._id + '/status', { method: 'PUT', body: JSON.stringify({ status: e.target.value }) });
+          toast('Estado actualizado');
+        };
+        tb.appendChild(tr);
+      });
+    }
+    $('#ld-refresh').onclick = loadLeads;
+
+    // ---------- util ----------
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+    // ---------- init ----------
+    function init() {
+      if (!map) initMap();
+      setupLocationSelectors();
+      loadMerchants();
+    }
+    if (adminKey) { hideLogin(); init(); } else { showLogin(); }
+  </script>
+</body>
+</html>

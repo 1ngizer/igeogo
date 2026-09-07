@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/colors_and_type.css">
+  <script src="_ds/ingizer-design-system-019dda95-89f4-701d-9049-3a2874a281e3/_ds_bundle.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; background: #F7F9FB; font-family: 'Poppins', sans-serif; color: #081C2A; }
+    a { color: #04C537; } a:hover { color: #06B033; }
+    @keyframes gz-blink { 0%, 90%, 100% { transform: scaleY(1); } 93%, 96% { transform: scaleY(0.08); } }
+    @keyframes gz-seg { 0% { opacity: 0.2; } 14%, 68% { opacity: 1; } 82%, 100% { opacity: 0.2; } }
+  </style>
+</helmet>
+
+<div style="max-width: 960px; margin: 0 auto; background: #FFFFFF;">
+
+  <!-- ===== Portada ===== -->
+  <section data-screen-label="Portada" style="background: #081C2A; padding: 96px 72px; display: flex; flex-direction: column; gap: 48px; min-height: 620px; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 40px; height: 40px; border-radius: 11px; background: #0E2537; display: flex; align-items: center; justify-content: center; border: 1px solid #1A3A52;">
+        <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+          <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+          <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+          <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+      <span style="font-family: 'Poppins'; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #8CA3B5; text-transform: uppercase;">Brand Manual · 2026</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="font-family: 'Comfortaa'; font-size: 88px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.01em; line-height: 1;">ingizer</span>
+        <div style="width: 60px; height: 60px; border-radius: 16px; background: #0E2537; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #1A3A52;">
+          <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+            <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+            <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+            <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          </svg>
+        </div>
+      </div>
+      <p style="margin: 0; max-width: 460px; font-size: 18px; line-height: 1.5; color: #C4D2DD; font-weight: 300;">Sistema de identidad para la plataforma de consultoría financiera con IA. Lineamientos de logo, color, tipografía y aplicación.</p>
+    </div>
+    <span style="font-family: 'Comfortaa'; font-size: 15px; font-weight: 500; color: #04C537; letter-spacing: 0.08em;">#EmpowerYourBusiness</span>
+  </section>
+
+  <!-- ===== 01 Arquitectura ===== -->
+  <section data-screen-label="Arquitectura" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">01 — Arquitectura</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Una marca, dos voces</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">El nombre es un portmanteau: <strong style="color:#081C2A;">in</strong>(telligence) + <strong style="color:#081C2A;">gizer</strong> (energy). <strong style="color:#081C2A;">gizer</strong> es el asistente de IA — el personaje. <strong style="color:#081C2A;">ingizer</strong> es la compañía y el producto.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="border: 1px solid #E1E7ED; border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; justify-content: center; padding: 12px 0;">
+          <svg viewBox="0 0 200 212" style="width: 120px;">
+            <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+            <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+            <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite;"></path>
+            <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.48s infinite;"></path>
+            <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite;"></path>
+            <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13" style="animation: gz-seg 3.2s 0.32s infinite;"></path>
+            <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite;"></path>
+            <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13" style="animation: gz-seg 3.2s 0.16s infinite;"></path>
+            <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite;"></path>
+            <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13" style="animation: gz-seg 3.2s 0s infinite;"></path>
+            <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+            <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+            <g style="animation: gz-blink 4.4s infinite; transform-box: fill-box; transform-origin: center;">
+              <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+              <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+            </g>
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <span style="font-family: 'Comfortaa'; font-size: 22px; font-weight: 600;">gizer</span>
+          <span style="font-size: 13.5px; color: #5A6B7A; line-height: 1.5;">El asistente de IA. Reloj-medidor que diagnostica: alerta a la izquierda, gestión a la derecha.</span>
+        </div>
+      </div>
+      <div style="border: 1px solid #E1E7ED; border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex: 1;">
+          <span style="font-family: 'Comfortaa'; font-size: 46px; font-weight: 600; color: #081C2A; line-height: 1;">ingizer</span>
+          <div style="width: 34px; height: 34px; border-radius: 10px; background: #081C2A; display: inline-flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+            <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+            <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+            <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          </svg>
+        </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <span style="font-family: 'Comfortaa'; font-size: 22px; font-weight: 600;">ingizer</span>
+          <span style="font-size: 13.5px; color: #5A6B7A; line-height: 1.5;">La compañía. Wordmark en Comfortaa; el mark de gizer vive entre paréntesis como firma.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 02 gizer mark ===== -->
+  <section data-screen-label="Mark gizer" style="padding: 72px; background: #F7F9FB; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">02 — El mark de gizer</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">El símbolo del asistente</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">El medidor de desempeño es el dispositivo de marca: espectro rojo → verde. Nunca lo reconstruyas a mano — usa los archivos en <code style="font-family:'JetBrains Mono',monospace; background:#EDF1F4; padding:1px 6px; border-radius:5px; font-size:13px;">brand/</code>.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 130px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+      </div>
+      <div style="background: #081C2A; border-radius: 14px; padding: 28px; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 130px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+          <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+      <div style="background: #04C537; border-radius: 14px; padding: 28px; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 130px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#FFFFFF"></rect>
+          <circle cx="100" cy="110" r="88" fill="none" stroke="#FFFFFF" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FFFFFF" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+    </div>
+    <div style="display: flex; gap: 28px; font-size: 13.5px; color: #5A6B7A;">
+      <span><strong style="color:#081C2A;">Positivo</strong> · sobre claro</span>
+      <span><strong style="color:#081C2A;">Negativo</strong> · sobre navy</span>
+      <span><strong style="color:#081C2A;">Mono verde</strong> · sobre acento</span>
+    </div>
+  </section>
+
+  <!-- ===== 02b Colorways ===== -->
+  <section data-screen-label="Colorways" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">02b — Colorways</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Variantes monocromáticas</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Además del espectro oficial, gizer admite lecturas monocromáticas para sub-marcas o estados. Cada arco degrada de abajo hacia arriba: el tono más intenso corona el medidor. Los marks y ojos se mantienen navy.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 120px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#123C8A" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#123C8A" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#2E63C9" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#2E63C9" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#5B8FE6" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#5B8FE6" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#A6C6F2" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#A6C6F2" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Azul</strong> · ambos lados</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 120px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#4A1E9E" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#4A1E9E" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#6E3FD1" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#6E3FD1" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9B78E6" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#9B78E6" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#CFB9F4" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#CFB9F4" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Violeta</strong> · ambos lados</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 120px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#0A6E6A" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#0A6E6A" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#12A39B" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#12A39B" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#3FCBBE" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#3FCBBE" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#9EE6DE" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#9EE6DE" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Teal</strong> · ambos lados</span>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 110px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#B3140F" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#B3140F" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#E8231C" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#E8231C" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#F4635D" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#F4635D" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#F9AEAB" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#F9AEAB" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Rojo</strong> · alerta</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 110px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#037226" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#037226" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#4FDB74" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#4FDB74" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#A6EEB8" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#A6EEB8" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Verde</strong> · gestión</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 110px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#C79A00" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#C79A00" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#F0C400" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#F0C400" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#F7D948" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#F7D948" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FBEBA0" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FBEBA0" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Amarillo</strong> · base</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 110px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#B85E00" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#B85E00" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#FFB25E" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FFB25E" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FFD9AC" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FFD9AC" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Naranja</strong> · warning</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <svg viewBox="0 0 200 212" style="width: 110px;">
+          <rect x="84" y="4" width="32" height="18" rx="7" fill="#081C2A"></rect>
+          <circle cx="100" cy="110" r="88" fill="#FFFFFF" stroke="#081C2A" stroke-width="9"></circle>
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#3F4A54" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#3F4A54" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#697884" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#697884" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#98A6B1" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#98A6B1" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#CDD6DD" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#CDD6DD" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#081C2A"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#081C2A"></polygon>
+          <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+          <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#081C2A"></rect>
+        </svg>
+        <span style="font-size: 13.5px; color: #5A6B7A;"><strong style="color:#081C2A;">Gris</strong> · neutro</span>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #5A6B7A; line-height: 1.5;">Nota: el espectro rojo → verde es el uso <strong style="color:#081C2A;">primario</strong>. Las variantes monocromáticas son secundarias y no reemplazan la lectura de estado (alerta / gestión).</p>
+  </section>
+
+  <!-- ===== 03 App icon ===== -->
+  <section data-screen-label="Ícono de app" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">03 — Ícono de app</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">gizer en pantalla de inicio</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Sobre navy, el fondo reemplaza el anillo. En tamaños chicos el medidor se simplifica a dos arcos (rojo = alerta, verde = gestión) para seguir legible a 48 px.</p>
+    </div>
+    <div style="display: flex; align-items: flex-end; gap: 28px; flex-wrap: wrap;">
+      <div style="width: 160px; height: 160px; border-radius: 36px; background: radial-gradient(circle at 30% 20%, #12314A 0%, #081C2A 70%); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 32px rgba(8,28,42,0.22);">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M123.97,50.66 A64,64 0 0 1 151.11,71.48" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M76.03,50.66 A64,64 0 0 0 48.89,71.48" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M153.67,75.14 A64,64 0 0 1 163.96,107.77" fill="none" stroke="#04C537" stroke-width="13"></path>
+          <path d="M46.33,75.14 A64,64 0 0 0 36.04,107.77" fill="none" stroke="#FF2E27" stroke-width="13"></path>
+          <path d="M163.96,112.23 A64,64 0 0 1 153.67,144.86" fill="none" stroke="#9FDA20" stroke-width="13"></path>
+          <path d="M36.04,112.23 A64,64 0 0 0 46.33,144.86" fill="none" stroke="#FF8F1B" stroke-width="13"></path>
+          <path d="M151.11,148.52 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <path d="M48.89,148.52 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FCD006" stroke-width="13"></path>
+          <rect x="93.5" y="31.5" width="13" height="27" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,166 90,184 110,184" fill="#FFFFFF"></polygon>
+          <g style="animation: gz-blink 4.4s 2s infinite; transform-box: fill-box; transform-origin: center;">
+            <rect x="79.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="94" width="13" height="32" rx="6.5" fill="#FFFFFF"></rect>
+          </g>
+        </svg>
+      </div>
+      <div style="width: 96px; height: 96px; border-radius: 22px; background: #081C2A; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="14" stroke-linecap="round"></path>
+          <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="14" stroke-linecap="round"></path>
+          <rect x="94.5" y="34" width="11" height="22" rx="5.5" fill="#FFFFFF"></rect>
+          <polygon points="100,164 88,184 112,184" fill="#FFFFFF"></polygon>
+          <rect x="80.5" y="90" width="11" height="40" rx="5.5" fill="#FFFFFF"></rect>
+          <rect x="108.5" y="90" width="11" height="40" rx="5.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+      <div style="width: 48px; height: 48px; border-radius: 12px; background: #081C2A; display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 200 212" style="width: 84%; height: 84%;">
+          <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="16" stroke-linecap="round"></path>
+          <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="16" stroke-linecap="round"></path>
+          <rect x="93.5" y="34" width="13" height="22" rx="6.5" fill="#FFFFFF"></rect>
+          <polygon points="100,164 86,184 114,184" fill="#FFFFFF"></polygon>
+          <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04 Wordmark ingizer ===== -->
+  <section data-screen-label="Wordmark" style="padding: 72px; background: #F7F9FB; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">04 — Wordmark</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">ingizer, en Comfortaa</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Siempre en minúsculas. Comfortaa 600, tracking −0.01em. El ícono de gizer acompaña al wordmark como firma a la derecha, en un tile navy.</p>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 56px; display: flex; align-items: center; justify-content: center; gap: 18px;">
+      <span style="font-family: 'Comfortaa'; font-size: 88px; font-weight: 600; color: #081C2A; letter-spacing: -0.01em; line-height: 1;">ingizer</span>
+      <div style="width: 66px; height: 66px; border-radius: 18px; background: #081C2A; display: inline-flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+            <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+            <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+            <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          </svg>
+        </div>
+    </div>
+  </section>
+
+  <!-- ===== 05 Lockup ===== -->
+  <section data-screen-label="Lockup" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">05 — Lockup</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Wordmark + ícono</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Para navbars, footers y firmas: el ícono de gizer acompaña al wordmark como sufijo. Separación mínima igual a la altura de la "i".</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 48px; display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <span style="font-family: 'Comfortaa'; font-size: 68px; font-weight: 600; color: #081C2A; letter-spacing: -0.01em; line-height: 1;">ingizer</span>
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #081C2A; display: inline-flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+            <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+            <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+            <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          </svg>
+        </div>
+      </div>
+      <div style="background: #081C2A; border-radius: 14px; padding: 48px; display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <span style="font-family: 'Comfortaa'; font-size: 68px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.01em; line-height: 1;">ingizer</span>
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: #0E2537; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #1A3A52;">
+          <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+            <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="15" stroke-linecap="round"></path>
+            <rect x="93.5" y="30" width="13" height="24" rx="6.5" fill="#FFFFFF"></rect>
+            <polygon points="100,160 86,184 114,184" fill="#FFFFFF"></polygon>
+            <rect x="79.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+            <rect x="107.5" y="90" width="13" height="40" rx="6.5" fill="#FFFFFF"></rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 06 Color ===== -->
+  <section data-screen-label="Color" style="padding: 72px; background: #F7F9FB; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">06 — Color</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Navy + espectro del medidor</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Navy es el color de texto, CTA y fondo oscuro. El espectro rojo → verde es el sistema de acento y estado — nunca como fondo genérico.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 150px;">
+          <div style="height: 96px; border-radius: 12px; background: #081C2A;"></div>
+          <div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 14px;">Brand navy</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12.5px; color: #5A6B7A;">#081C2A</div></div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 120px;"><div style="height: 72px; border-radius: 12px; background: #FF2E27;"></div><div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 13.5px;">Danger</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: #5A6B7A;">#FF2E27</div></div></div>
+        <div style="flex: 1; min-width: 120px;"><div style="height: 72px; border-radius: 12px; background: #FF8F1B;"></div><div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 13.5px;">Warning</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: #5A6B7A;">#FF8F1B</div></div></div>
+        <div style="flex: 1; min-width: 120px;"><div style="height: 72px; border-radius: 12px; background: #FCD006;"></div><div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 13.5px;">Caution</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: #5A6B7A;">#FCD006</div></div></div>
+        <div style="flex: 1; min-width: 120px;"><div style="height: 72px; border-radius: 12px; background: #9FDA20;"></div><div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 13.5px;">Improving</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: #5A6B7A;">#9FDA20</div></div></div>
+        <div style="flex: 1; min-width: 120px;"><div style="height: 72px; border-radius: 12px; background: #04C537;"></div><div style="padding-top: 10px;"><div style="font-weight: 600; font-size: 13.5px;">Success</div><div style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: #5A6B7A;">#04C537</div></div></div>
+      </div>
+      <div style="height: 20px; border-radius: 999px; background: linear-gradient(90deg, #FF2E27, #FF8F1B, #FCD006, #9FDA20, #04C537);"></div>
+    </div>
+  </section>
+
+  <!-- ===== 07 Tipografía ===== -->
+  <section data-screen-label="Tipografía" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">07 — Tipografía</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Comfortaa + Poppins</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Comfortaa se reserva para el wordmark y titulares de marca. Poppins es la voz de interfaz y cuerpo. Cifras siempre tabulares en tablas y KPIs.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="border: 1px solid #E1E7ED; border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 14px;">
+        <span style="font-family: 'Comfortaa'; font-size: 56px; font-weight: 600; line-height: 1;">Aa</span>
+        <div><div style="font-family:'Comfortaa'; font-weight: 600; font-size: 18px;">Comfortaa</div><div style="font-size: 13px; color: #5A6B7A;">Display · wordmark · 400–700</div></div>
+        <span style="font-family:'Comfortaa'; font-size: 15px; color: #5A6B7A;">ingizer · #EmpowerYourBusiness</span>
+      </div>
+      <div style="border: 1px solid #E1E7ED; border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 14px;">
+        <span style="font-family: 'Poppins'; font-size: 56px; font-weight: 600; line-height: 1;">Aa</span>
+        <div><div style="font-family:'Poppins'; font-weight: 600; font-size: 18px;">Poppins</div><div style="font-size: 13px; color: #5A6B7A;">UI · cuerpo · 300–700</div></div>
+        <span style="font-family:'Poppins'; font-size: 15px; color: #5A6B7A;">Forecast cash. Spot drift. Act early.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 08 Usos incorrectos ===== -->
+  <section data-screen-label="Usos incorrectos" style="padding: 72px; background: #F7F9FB; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #FF2E27; text-transform: uppercase;">08 — Usos incorrectos</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">Lo que nunca hacemos</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <span style="font-family: 'Comfortaa'; font-size: 34px; font-weight: 600; color: #081C2A; transform: skewX(-12deg);">ingizer</span>
+        <span style="font-size: 12.5px; color: #FF2E27; font-weight: 500;">✕ No inclinar ni deformar</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <span style="font-family: 'Poppins'; font-size: 34px; font-weight: 700; color: #081C2A;">Ingizer</span>
+        <span style="font-size: 12.5px; color: #FF2E27; font-weight: 500;">✕ No usar mayúscula ni otra fuente</span>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E7ED; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <div style="background: linear-gradient(90deg,#FF2E27,#04C537); border-radius: 10px; padding: 8px 14px;"><span style="font-family: 'Comfortaa'; font-size: 30px; font-weight: 600; color: #FFFFFF;">ingizer</span></div>
+        <span style="font-size: 12.5px; color: #FF2E27; font-weight: 500;">✕ No sobre fondo de espectro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 09 Aplicación landing ===== -->
+  <section data-screen-label="Aplicación landing" style="padding: 72px; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">09 — Aplicación</span>
+      <h2 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.02em;">La marca en una landing</h2>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: #5A6B7A;">Ejemplo de composición: nav con lockup, hero navy con arco de medidor como gráfico, y CTA verde. Los archivos de handoff replican estas reglas.</p>
+    </div>
+    <div style="border: 1px solid #E1E7ED; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(8,28,42,0.10);">
+      <div style="background: #FFFFFF; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E1E7ED;">
+        <div style="display: flex; align-items: center; gap: 9px;">
+          <span style="font-family: 'Comfortaa'; font-size: 24px; font-weight: 600; color: #081C2A;">ingizer</span>
+          <div style="width: 22px; height: 22px; border-radius: 7px; background: #081C2A; display: inline-flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 200 212" style="width: 82%; height: 82%;">
+              <path d="M76.03,50.66 A64,64 0 0 0 36.04,110 A64,64 0 0 0 76.03,169.34" fill="none" stroke="#FF2E27" stroke-width="17" stroke-linecap="round"></path>
+              <path d="M123.97,50.66 A64,64 0 0 1 163.96,110 A64,64 0 0 1 123.97,169.34" fill="none" stroke="#04C537" stroke-width="17" stroke-linecap="round"></path>
+              <rect x="92" y="88" width="15" height="44" rx="7.5" fill="#FFFFFF"></rect>
+              <rect x="112" y="88" width="0" height="0"></rect>
+              <rect x="79" y="88" width="15" height="44" rx="7.5" fill="#FFFFFF"></rect>
+              <rect x="106" y="88" width="15" height="44" rx="7.5" fill="#FFFFFF"></rect>
+            </svg>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; color: #5A6B7A;">
+          <span>Product</span><span>Pricing</span><span>About</span>
+          <span style="background: #04C537; color: #FFFFFF; padding: 8px 16px; border-radius: 10px; font-weight: 500; font-size: 13px;">Run a forecast</span>
+        </div>
+      </div>
+      <div style="background: #081C2A; padding: 64px 48px; position: relative; overflow: hidden;">
+        <svg viewBox="0 0 400 400" style="position: absolute; right: -60px; top: 50%; transform: translateY(-50%); width: 380px; opacity: 0.5;">
+          <circle cx="200" cy="200" r="150" fill="none" stroke="#0E2537" stroke-width="30"></circle>
+          <path d="M200,50 A150,150 0 0 1 306,94" fill="none" stroke="#04C537" stroke-width="30" stroke-linecap="round"></path>
+          <path d="M200,50 A150,150 0 0 0 94,94" fill="none" stroke="#FF2E27" stroke-width="30" stroke-linecap="round"></path>
+        </svg>
+        <div style="position: relative; max-width: 460px; display: flex; flex-direction: column; gap: 20px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">AI financial consulting</span>
+          <h3 style="margin: 0; font-family: 'Comfortaa'; font-size: 44px; font-weight: 600; color: #FFFFFF; line-height: 1.05; letter-spacing: -0.02em;">Forecast cash. Spot drift. Act before the quarter does.</h3>
+          <p style="margin: 0; font-size: 16px; color: #C4D2DD; line-height: 1.6; font-weight: 300;">gizer diagnoses your cash flow and plans the next move — so your meter stays in the green.</p>
+          <div style="display: flex; gap: 12px; padding-top: 4px;">
+            <span style="background: #04C537; color: #FFFFFF; padding: 12px 22px; border-radius: 10px; font-weight: 500; font-size: 14px;">Run a forecast</span>
+            <span style="border: 1px solid #2A4459; color: #FFFFFF; padding: 12px 22px; border-radius: 10px; font-weight: 500; font-size: 14px;">See your meter</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Handoff ===== -->
+  <section data-screen-label="Handoff" style="padding: 72px; background: #081C2A; display: flex; flex-direction: column; gap: 24px;">
+    <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.14em; color: #04C537; text-transform: uppercase;">Handoff para desarrollo</span>
+    <h2 style="margin: 0; font-size: 30px; font-weight: 600; color: #FFFFFF; letter-spacing: -0.02em;">Archivos para construir páginas en marca</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">
+      <div style="display: flex; gap: 12px; align-items: baseline;"><span style="color: #04C537;">CLAUDE.md</span><span style="color: #8CA3B5;">— reglas de marca inyectadas en cada sesión</span></div>
+      <div style="display: flex; gap: 12px; align-items: baseline;"><span style="color: #04C537;">brand/logos.html</span><span style="color: #8CA3B5;">— SVGs copy-paste: mark, ícono, wordmark, lockup</span></div>
+      <div style="display: flex; gap: 12px; align-items: baseline;"><span style="color: #04C537;">brand/tokens.md</span><span style="color: #8CA3B5;">— color, tipografía y espaciado en un vistazo</span></div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Manual de marca ingizer";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // A document that owns its print CSS (the doc-page starter injects the
+  // meta at runtime; hand-rolled print designs author it) gets no automatic
+  // page geometry and keeps its forced breaks: strip the injected default
+  // @page — write time cannot see a runtime-injected meta — skip the frame
+  // override below, and skip the fakepage-flattening further down. What
+  // still applies: the print baseline and break-hygiene defaults (no @page
+  // in either; low specificity, so the document's own print CSS wins) and
+  // the break-inside relaxation on >page elements (avoid on those cannot
+  // be honored whoever authored it).
+  var ownsPrint = !!document.querySelector('meta[name="omelette-owns-print" i]');
+  if (ownsPrint) {
+    var dst = document.querySelector('style[data-omelette-print-defaults]');
+    if (dst && dst.textContent) {
+      dst.textContent = dst.textContent.replace(/@page\b[^{}]*\{[^}]*\}/, '');
+    }
+  }
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…} or declared print ownership
+  // via the meta above. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+  // Name-presence check, case-insensitive — the same contract as the
+  // instant-PDF path's runtime check in deck-stage-export.ts. The name is
+  // a string literal here because that file interpolates this script into
+  // its print script, so importing a shared constant from it would be a
+  // cycle; measure.test.ts pins the literal so the two cannot drift apart
+  // silently.
+  var ownsPrint = !!document.querySelector('meta[name="omelette-owns-print" i]');
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false, ownsPrint: ownsPrint } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false, ownsPrint: ownsPrint } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage, ownsPrint: ownsPrint };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: off unless the page opts in via data-om-multi-frame on the
+  // stop element — the explicit opt-in is what guards against card grids
+  // and pricing tables that match the geometry but aren't separate
+  // canvases. Two ways to name the frames, explicit first:
+  // 1. Descendants marked data-om-frame-export (the social-frames starter
+  //    marks each asset frame; shells/panels around them are presentation,
+  //    so nesting is expected). Document order.
+  // 2. Fallback, no marked descendants: direct children with an authored px
+  //    width AND height (the original geometry heuristic).
+  // Frames may be different sizes (a gallery mixes 1080×1920 stories with
+  // 728×90 banners); data-om-frame-label rides along for export filenames.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var visOk = function (e) {
+      var cs; try { cs = getComputedStyle(e); } catch (err) { return false; }
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.position !== 'fixed';
+    };
+    // A frame's crop is its VISUAL box — never the scrollHeight-inflated
+    // rect that rectOf computes for page roots. Shadow-DOM hover controls
+    // (image-slot's Replace bar parks 29px below its host) and similar
+    // escaping UI contribute scrollable overflow to the frame, and the
+    // inflated height both squashes the nominal-size resize and drags
+    // content below the frame into the crop. Zoom-independent; bit every
+    // slot-bearing frame.
+    var frameRectOf = function (e) {
+      var r = e.getBoundingClientRect();
+      return { left: r.left + sx, top: r.top + sy, width: r.width, height: r.height };
+    };
+    var pushCand = function (list, e) {
+      if (!visOk(e)) return;
+      var rc = frameRectOf(e);
+      if (rc.width < 2 || rc.height < 2) return;
+      var lbl = e.getAttribute('data-om-frame-label');
+      if (lbl) rc.label = lbl;
+      list.push(rc);
+    };
+    var cands = [];
+    var marked = el.querySelectorAll('[data-om-frame-export]');
+    if (marked.length) {
+      for (var mk = 0; mk < marked.length; mk++) pushCand(cands, marked[mk]);
+    } else {
+      for (var k = 0; k < el.children.length; k++) {
+        var ch = el.children[k];
+        if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+        pushCand(cands, ch);
+      }
+    }
+    if (cands.length >= 2) {
+      return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (!ownsPrint && __m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          // An owns-print doc's forced breaks are intentional sheet
+          // boundaries, never fake-paged simulation — don't strip them.
+          // The break-inside relaxation above still applies: avoid on a
+          // >page element is impossible to honor whoever authored it.
+          if (
+            !ownsPrint &&
+            (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always')
+          ) {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

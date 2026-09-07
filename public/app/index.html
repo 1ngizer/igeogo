@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#12A9E0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="igeogo" />
+  <link rel="manifest" href="/app/manifest.json" />
+  <link rel="icon" href="/assets/isotipo.svg" />
+  <title>igeogo</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root { --accent:#12A9E0; --accent-d:#0E86B4; --gold:#F5B912; --ink:#0C1116; --muted:#5A6672; --line:#e3e9ef; --bg:#fff; }
+    * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body { margin:0; height:100%; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+    #app { height:100%; max-width:480px; margin:0 auto; position:relative; overflow:hidden; }
+    .screen { position:absolute; inset:0; display:none; flex-direction:column; padding:22px 22px calc(22px + env(safe-area-inset-bottom)); overflow-y:auto; }
+    .screen.active { display:flex; }
+    h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; margin:8px 0 6px; line-height:1.15; }
+    .sub { color:var(--muted); font-size:15px; margin:0 0 22px; line-height:1.4; }
+    .brand { font-size:34px; font-weight:800; color:var(--accent); letter-spacing:-1px; }
+    input[type=text],input[type=tel],input[type=number] { width:100%; padding:15px 16px; border:1.5px solid var(--line); border-radius:14px; font-size:17px; font-family:inherit; }
+    input:focus { outline:none; border-color:var(--accent); }
+    .btn { width:100%; padding:16px; border:none; border-radius:30px; background:var(--accent); color:#fff; font-size:17px; font-weight:700; cursor:pointer; }
+    .btn:disabled { background:#c7ccd2; }
+    .btn.accent { background:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--muted); font-weight:600; }
+    .spacer { flex:1; }
+    .prog { height:5px; background:var(--line); border-radius:3px; margin:6px 0 26px; overflow:hidden; }
+    .prog > i { display:block; height:100%; background:var(--accent); border-radius:3px; transition:width .3s; }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; }
+    .chip { padding:11px 16px; border:1.5px solid var(--line); border-radius:24px; font-size:15px; cursor:pointer; background:#fff; user-select:none; }
+    .chip.on { border-color:var(--accent); color:var(--accent-d); background:#e6f6fd; font-weight:600; }
+    .row { display:flex; align-items:center; gap:12px; }
+    .toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:#111; color:#fff; padding:11px 18px; border-radius:12px; font-size:14px; opacity:0; transition:.25s; z-index:9999; pointer-events:none; }
+    .toast.show { opacity:1; }
+    .toast.err { background:var(--accent); }
+    /* Mapa */
+    #map { position:absolute; inset:0; }
+    .maptop { position:absolute; top:0; left:0; right:0; z-index:600; padding:10px 12px calc(10px); background:linear-gradient(#fff,#fff 70%,rgba(255,255,255,0)); }
+    .maptop .t { font-weight:800; font-size:20px; margin:2px 4px 8px; }
+    .filterbar { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
+    .filterbar .chip { flex:none; padding:8px 14px; font-size:14px; }
+    .count { position:absolute; top:118px; left:12px; z-index:600; background:#111; color:#fff; font-size:13px; padding:6px 12px; border-radius:20px; }
+    .nav { position:absolute; bottom:0; left:0; right:0; z-index:600; display:flex; background:#fff; border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom); }
+    .nav button { flex:1; background:none; border:none; padding:12px; font-size:12px; color:var(--muted); cursor:pointer; }
+    .nav button.on { color:var(--accent); font-weight:700; }
+    .nav button .ic { font-size:22px; display:block; }
+    .pin { font-size:26px; line-height:1; filter:drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+    .card { border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
+    label.lbl { display:block; font-size:13px; color:var(--muted); margin:16px 0 6px; font-weight:600; }
+    select { width:100%; padding:14px 12px; border:1.5px solid var(--line); border-radius:14px; font-size:16px; font-family:inherit; background:#fff; }
+    .cli-only { display:none !important; }
+    .is-cliente .cli-only { display:block !important; }
+    .cpitem { border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:10px; }
+    .badge { display:inline-block; font-size:11px; font-weight:700; padding:2px 9px; border-radius:20px; }
+    .badge.propuesta{background:#fff3cd;color:#8a6d00} .badge.pagada{background:#e3f6ea;color:#1f9d55}
+    .badge.enviada{background:#e7f0ff;color:#2a5db0} .badge.rechazada{background:#fbe4e4;color:#d64545}
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- LOGIN -->
+  <section id="s-login" class="screen active">
+    <div style="height:8vh"></div>
+    <div class="row" style="gap:10px;align-items:center">
+      <img src="/assets/isotipo.svg" alt="igeogo" width="42" height="42" />
+      <div class="brand">igeogo</div>
+    </div>
+    <h1>Ofertas cerca de ti</h1>
+    <p class="sub">Entra con tu número de WhatsApp. Te enviaremos un código para verificarte.</p>
+    <div id="login-step1">
+      <label class="lbl">Tu número (con código de país)</label>
+      <input id="phone" type="tel" placeholder="+57 300 123 4567" />
+      <div style="height:16px"></div>
+      <button class="btn accent" id="btn-sendcode">Enviar código</button>
+    </div>
+    <div id="login-step2" style="display:none">
+      <label class="lbl">Código que te llegó por WhatsApp</label>
+      <input id="code" type="text" inputmode="numeric" placeholder="6 dígitos" maxlength="6" />
+      <div style="height:16px"></div>
+      <button class="btn accent" id="btn-verify">Verificar y entrar</button>
+      <div style="height:8px"></div>
+      <button class="btn ghost" id="btn-back-phone">Cambiar número</button>
+    </div>
+    <div class="spacer"></div>
+    <p class="sub" style="text-align:center;font-size:12px">Al continuar aceptas el uso de tu ubicación y preferencias para mostrarte ofertas.</p>
+  </section>
+
+  <!-- ONBOARDING -->
+  <section id="s-onb" class="screen">
+    <div class="prog"><i id="onb-prog" style="width:33%"></i></div>
+
+    <div id="onb-1">
+      <h1>¿Nos permites tu ubicación?</h1>
+      <p class="sub">La usamos para mostrarte cupones de comercios cercanos en el mapa. Puedes cambiarlo cuando quieras.</p>
+      <button class="btn accent" id="btn-geo">Permitir ubicación</button>
+      <div style="height:10px"></div>
+      <button class="btn ghost" id="btn-geo-skip">Ahora no</button>
+      <p class="sub" id="geo-status" style="margin-top:16px"></p>
+    </div>
+
+    <div id="onb-2" style="display:none">
+      <h1>¿Qué te interesa?</h1>
+      <p class="sub">Elige las categorías de ofertas que quieres ver.</p>
+      <div class="chips" id="onb-cats"></div>
+    </div>
+
+    <div id="onb-3" style="display:none">
+      <h1>Distancia máxima</h1>
+      <p class="sub">¿A qué distancia quieres ver las ofertas?</p>
+      <div class="row"><input id="onb-radius" type="range" min="500" max="20000" step="500" value="2000" style="flex:1" /><b id="onb-radius-val" style="min-width:64px;text-align:right">2.0 km</b></div>
+    </div>
+
+    <div class="spacer"></div>
+    <button class="btn" id="btn-onb-next">Continuar</button>
+  </section>
+
+  <!-- MAPA -->
+  <section id="s-map" class="screen" style="padding:0">
+    <div id="map"></div>
+    <div class="maptop">
+      <div class="t">Ofertas cerca</div>
+      <div class="filterbar" id="filterbar"></div>
+    </div>
+    <div class="count" id="count" style="display:none"></div>
+    <div class="nav">
+      <button class="on" data-nav="map"><span class="ic">🗺️</span>Mapa</button>
+      <button data-nav="campaigns" class="cli-only"><span class="ic">📣</span>Campañas</button>
+      <button data-nav="profile"><span class="ic">👤</span>Perfil</button>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section id="s-profile" class="screen">
+    <h1>Tu perfil</h1>
+    <div class="card">
+      <label class="lbl" style="margin-top:0">Nombre</label>
+      <input id="p-name" type="text" placeholder="Tu nombre" />
+      <label class="lbl">Teléfono</label>
+      <div id="p-phone" style="font-size:16px;color:var(--muted)"></div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div><b style="font-size:15px">Modo comercio</b><div style="font-size:12px;color:var(--muted)">Crea campañas y llega a clientes cercanos</div></div>
+      <button class="btn" id="btn-role" style="width:auto;padding:9px 16px;font-size:14px;border-radius:20px">Activar</button>
+    </div>
+    <label class="lbl">Tus intereses</label>
+    <div class="chips" id="p-cats"></div>
+    <label class="lbl">Distancia máxima</label>
+    <div class="row"><input id="p-radius" type="range" min="500" max="20000" step="500" style="flex:1" /><b id="p-radius-val" style="min-width:64px;text-align:right"></b></div>
+    <div style="height:20px"></div>
+    <button class="btn accent" id="btn-save-profile">Guardar cambios</button>
+    <div style="height:10px"></div>
+    <button class="btn ghost" id="btn-logout">Cerrar sesión</button>
+    <div class="spacer"></div>
+    <div class="nav" style="position:static;margin:0 -22px -22px">
+      <button data-nav="map"><span class="ic">🗺️</span>Mapa</button>
+      <button data-nav="campaigns" class="cli-only"><span class="ic">📣</span>Campañas</button>
+      <button class="on" data-nav="profile"><span class="ic">👤</span>Perfil</button>
+    </div>
+  </section>
+
+  <!-- CAMPAÑAS (cliente) -->
+  <section id="s-campaigns" class="screen">
+    <h1>Campañas</h1>
+    <p class="sub">Diseña una promoción y llega a usuarios cercanos interesados.</p>
+
+    <div class="card">
+      <label class="lbl" style="margin-top:0">Producto o servicio</label>
+      <input id="cp-prod" type="text" placeholder="Ej: Almuerzo ejecutivo" />
+      <label class="lbl">Categoría</label>
+      <select id="cp-cat"></select>
+      <label class="lbl">Descuento: <b id="cp-disc-val">20%</b></label>
+      <input id="cp-disc" type="range" min="5" max="80" step="5" value="20" style="width:100%" />
+      <label class="lbl">Radio de alcance: <b id="cp-rad-val">2.0 km</b></label>
+      <input id="cp-rad" type="range" min="500" max="20000" step="500" value="2000" style="width:100%" />
+      <label class="lbl">Mensaje de la promoción</label>
+      <input id="cp-desc" type="text" placeholder="Válido de lunes a viernes" />
+      <button class="btn ghost" id="btn-ai" style="width:auto;padding:9px 16px;font-size:14px;border-radius:20px;margin-top:8px">✨ Redactar con IA</button>
+    </div>
+
+    <div class="card" style="background:#e6f6fd;border-color:#bfe6f7">
+      <div style="font-size:13px;color:var(--muted)">Usuarios potenciales en tu zona</div>
+      <div style="font-size:34px;font-weight:800;color:var(--accent-d)"><span id="cp-reach">—</span> <span style="font-size:15px;font-weight:600">personas</span></div>
+      <div style="font-size:12px;color:var(--muted)">Interesadas en esta categoría y dentro del radio (sin ver sus datos).</div>
+    </div>
+
+    <label class="lbl">Plan</label>
+    <select id="cp-plan"></select>
+    <div class="card" style="margin-top:12px;display:flex;align-items:center;justify-content:space-between">
+      <div><div style="font-size:13px;color:var(--muted)">Presupuesto</div><div style="font-size:26px;font-weight:800" id="cp-budget">—</div></div>
+      <div id="cp-plan-info" style="font-size:12px;color:var(--muted);text-align:right;max-width:150px"></div>
+    </div>
+    <button class="btn accent" id="btn-cp-create">Generar propuesta</button>
+
+    <label class="lbl" style="margin-top:26px">Tus campañas</label>
+    <div id="cp-list"></div>
+
+    <div class="spacer"></div>
+    <div class="nav" style="position:static;margin:0 -22px -22px">
+      <button data-nav="map"><span class="ic">🗺️</span>Mapa</button>
+      <button class="on cli-only" data-nav="campaigns"><span class="ic">📣</span>Campañas</button>
+      <button data-nav="profile"><span class="ic">👤</span>Perfil</button>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var MB_TOKEN='pk.eyJ1IjoiaW5naXplciIsImEiOiJjbXJkbDE2cjEwZmNrMndwc3NkdXhvNWFzIn0.efYiW6IPSiHD_ROlaE7c6g';
+  var CAT_META = {comida:'🍔',ropa:'👕',servicios:'🛠️',hoteles:'🏨',belleza:'💅',salud:'⚕️',entretenimiento:'🎬',deportes:'⚽',tecnologia:'💻',viajes:'✈️'};
+  var TKEY='igeogo_app_token';
+  var token = localStorage.getItem(TKEY) || '';
+  var profile = null, allCats = [], activeFilters = [], map=null, markers=null, onbStep=1, geo=null, pricing=null;
+  var $ = function(s){return document.querySelector(s);};
+
+  function toast(m,err){ var t=$('#toast'); t.textContent=m; t.className='toast show'+(err?' err':''); setTimeout(function(){t.className='toast';},2600); }
+  function show(id){ document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');}); $(id).classList.add('active'); }
+
+  function api(path, opts){
+    opts = opts || {};
+    var h = {'Content-Type':'application/json'};
+    if(token) h['Authorization']='Bearer '+token;
+    return fetch('/app/api'+path, Object.assign({headers:h}, opts)).then(function(r){
+      return r.json().catch(function(){return {};}).then(function(d){
+        if(r.status===401){ logout(); throw new Error('Sesión expirada'); }
+        if(!r.ok) throw new Error(d.error||('HTTP '+r.status));
+        return d;
+      });
+    });
+  }
+
+  function logout(){ localStorage.removeItem(TKEY); token=''; profile=null; show('#s-login'); }
+
+  // ---------- LOGIN ----------
+  $('#btn-sendcode').onclick = function(){
+    var phone = $('#phone').value.trim();
+    if(phone.replace(/\D/g,'').length < 8) return toast('Escribe un número válido', true);
+    $('#btn-sendcode').disabled=true; $('#btn-sendcode').textContent='Enviando…';
+    api('/auth/request-otp',{method:'POST',body:JSON.stringify({phone:phone})}).then(function(d){
+      $('#login-step1').style.display='none'; $('#login-step2').style.display='block';
+      toast(d.devCode? ('Código de prueba: '+d.devCode) : 'Código enviado por WhatsApp');
+    }).catch(function(e){toast(e.message,true);}).finally(function(){
+      $('#btn-sendcode').disabled=false; $('#btn-sendcode').textContent='Enviar código';
+    });
+  };
+  $('#btn-back-phone').onclick = function(){ $('#login-step2').style.display='none'; $('#login-step1').style.display='block'; };
+  $('#btn-verify').onclick = function(){
+    var phone=$('#phone').value.trim(), code=$('#code').value.trim();
+    $('#btn-verify').disabled=true;
+    api('/auth/verify-otp',{method:'POST',body:JSON.stringify({phone:phone,code:code})}).then(function(d){
+      token=d.token; localStorage.setItem(TKEY,token); profile=d.profile; routeAfterLogin();
+    }).catch(function(e){toast(e.message,true);}).finally(function(){$('#btn-verify').disabled=false;});
+  };
+
+  function routeAfterLogin(){
+    applyRole();
+    if(profile && profile.categories && profile.categories.length){ enterMap(); }
+    else { startOnboarding(); }
+  }
+
+  // ---------- ONBOARDING ----------
+  function startOnboarding(){
+    onbStep=1; renderOnbCats(); setOnbStep(1); show('#s-onb');
+  }
+  function setOnbStep(n){
+    onbStep=n; $('#onb-prog').style.width=(n*33.34)+'%';
+    $('#onb-1').style.display = n===1?'block':'none';
+    $('#onb-2').style.display = n===2?'block':'none';
+    $('#onb-3').style.display = n===3?'block':'none';
+    $('#btn-onb-next').textContent = n===3? 'Ver ofertas' : 'Continuar';
+  }
+  $('#btn-geo').onclick = function(){
+    $('#geo-status').textContent='Obteniendo ubicación…';
+    navigator.geolocation.getCurrentPosition(function(p){
+      geo={lat:p.coords.latitude,lng:p.coords.longitude};
+      $('#geo-status').textContent='✅ Ubicación lista';
+    }, function(){ $('#geo-status').textContent='No se pudo obtener. Puedes continuar y activarla luego.'; }, {enableHighAccuracy:true,timeout:8000});
+  };
+  $('#btn-geo-skip').onclick = function(){ setOnbStep(2); };
+  function renderOnbCats(){
+    $('#onb-cats').innerHTML='';
+    allCats.forEach(function(c){
+      var el=document.createElement('div'); el.className='chip'; el.textContent=(CAT_META[c]||'')+' '+c;
+      el.onclick=function(){ el.classList.toggle('on'); };
+      el.dataset.cat=c; $('#onb-cats').appendChild(el);
+    });
+  }
+  $('#onb-radius').oninput=function(){ $('#onb-radius-val').textContent=(this.value/1000).toFixed(1)+' km'; };
+  $('#btn-onb-next').onclick=function(){
+    if(onbStep===1){ setOnbStep(2); return; }
+    if(onbStep===2){
+      var sel=[].slice.call(document.querySelectorAll('#onb-cats .chip.on')).map(function(e){return e.dataset.cat;});
+      if(!sel.length) return toast('Elige al menos una categoría', true);
+      setOnbStep(3); return;
+    }
+    // paso 3: guardar
+    var cats=[].slice.call(document.querySelectorAll('#onb-cats .chip.on')).map(function(e){return e.dataset.cat;});
+    var body={categories:cats, maxDistanceMeters:Number($('#onb-radius').value), consentLocation:!!geo};
+    if(geo){ body.lat=geo.lat; body.lng=geo.lng; }
+    $('#btn-onb-next').disabled=true;
+    api('/me',{method:'PUT',body:JSON.stringify(body)}).then(function(d){ profile=d.profile; enterMap(); })
+      .catch(function(e){toast(e.message,true);}).finally(function(){$('#btn-onb-next').disabled=false;});
+  };
+
+  // ---------- MAPA ----------
+  function enterMap(){
+    show('#s-map'); activeFilters = (profile.categories||[]).slice();
+    renderFilters();
+    setTimeout(function(){ initMap(); loadCoupons(); }, 60);
+  }
+  function initMap(){
+    if(map){ map.invalidateSize(); return; }
+    var c = profile.lastLocation ? [profile.lastLocation[1], profile.lastLocation[0]] : (geo?[geo.lat,geo.lng]:[4.6512,-74.0587]);
+    map = L.map('map',{zoomControl:false}).setView(c, 14);
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token='+MB_TOKEN,{maxZoom:19,tileSize:512,zoomOffset:-1,attribution:'© Mapbox © OpenStreetMap'}).addTo(map);
+    markers = L.layerGroup().addTo(map);
+  }
+  function renderFilters(){
+    var bar=$('#filterbar'); bar.innerHTML='';
+    (profile.categories||allCats).forEach(function(c){
+      var el=document.createElement('div'); el.className='chip'+(activeFilters.indexOf(c)>=0?' on':'');
+      el.textContent=(CAT_META[c]||'')+' '+c;
+      el.onclick=function(){
+        var i=activeFilters.indexOf(c);
+        if(i>=0) activeFilters.splice(i,1); else activeFilters.push(c);
+        el.classList.toggle('on'); loadCoupons();
+      };
+      bar.appendChild(el);
+    });
+  }
+  function loadCoupons(){
+    var center = profile.lastLocation ? {lat:profile.lastLocation[1],lng:profile.lastLocation[0]} : geo;
+    if(!center){ toast('Activa tu ubicación en Perfil', true); return; }
+    var q='?lat='+center.lat+'&lng='+center.lng+'&radius='+(profile.maxDistanceMeters||2000);
+    if(activeFilters.length) q+='&categories='+activeFilters.join(',');
+    api('/coupons'+q).then(function(d){
+      markers.clearLayers();
+      L.circleMarker([d.center.lat,d.center.lng],{radius:7,color:'#2a7de1',fillColor:'#2a7de1',fillOpacity:1}).addTo(markers);
+      d.coupons.forEach(function(c){
+        var icon=L.divIcon({className:'',html:'<div class="pin">'+(CAT_META[c.category]||'📍')+'</div>',iconSize:[30,30],iconAnchor:[15,28]});
+        L.marker([c.lat,c.lng],{icon:icon}).addTo(markers)
+          .bindPopup('<b>'+esc(c.title)+'</b><br>'+(c.description?esc(c.description)+'<br>':'')+'🏪 '+esc(c.merchant)+'<br>'+(c.address?'📍 '+esc(c.address):''));
+      });
+      var el=$('#count'); el.style.display='block'; el.textContent='🎁 '+d.coupons.length+' oferta(s)';
+    }).catch(function(e){toast(e.message,true);});
+  }
+
+  // ---------- NAV / PERFIL ----------
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-nav]'); if(!b) return;
+    if(b.dataset.nav==='map'){ enterMap(); }
+    else if(b.dataset.nav==='campaigns'){ openCampaigns(); }
+    else { openProfile(); }
+  });
+
+  // ---------- ROL / MODO COMERCIO ----------
+  function applyRole(){
+    $('#app').classList.toggle('is-cliente', profile && profile.role==='cliente');
+    var b=$('#btn-role'); if(b){ b.textContent = (profile && profile.role==='cliente')?'Desactivar':'Activar'; }
+  }
+  var btnRole=$('#btn-role'); if(btnRole){ btnRole.onclick=function(){
+    var newRole = (profile.role==='cliente')?'usuario':'cliente';
+    api('/me',{method:'PUT',body:JSON.stringify({role:newRole})}).then(function(d){
+      profile=d.profile; applyRole();
+      toast(newRole==='cliente'?'Modo comercio activado 🏪':'Modo comercio desactivado');
+    }).catch(function(e){toast(e.message,true);});
+  };}
+
+  // ---------- CAMPAÑAS (cliente) ----------
+  function money(n){ return '$'+Math.round(n).toLocaleString('es-CO')+' '+((pricing&&pricing.currency)||'COP'); }
+  function openCampaigns(){
+    if(!profile || profile.role!=='cliente'){ toast('Activa el modo comercio en Perfil', true); return openProfile(); }
+    show('#s-campaigns');
+    // categorias
+    var sc=$('#cp-cat'); if(!sc.options.length){ sc.innerHTML=allCats.map(function(c){return '<option value="'+c+'">'+(CAT_META[c]||'')+' '+c+'</option>';}).join(''); }
+    // planes
+    var sp=$('#cp-plan');
+    var opts='<option value="por_mensaje">Por mensaje ('+money(pricing?pricing.pricePerMessage:100)+' c/u)</option>';
+    (pricing?pricing.plans:[]).forEach(function(p){ opts+='<option value="'+p.name+'">'+p.name+' — '+money(p.price)+' ('+p.messages+' msgs)</option>'; });
+    sp.innerHTML=opts;
+    $('#cp-rad').value = profile.maxDistanceMeters||2000; $('#cp-rad-val').textContent=((profile.maxDistanceMeters||2000)/1000).toFixed(1)+' km';
+    refreshReach();
+    loadMyCampaigns();
+  }
+  ['cp-cat','cp-plan'].forEach(function(id){ var el=$('#'+id); if(el) el.onchange=refreshReach; });
+  var cpDisc=$('#cp-disc'); if(cpDisc) cpDisc.oninput=function(){ $('#cp-disc-val').textContent=this.value+'%'; };
+  var cpRad=$('#cp-rad'); if(cpRad) cpRad.oninput=function(){ $('#cp-rad-val').textContent=(this.value/1000).toFixed(1)+' km'; refreshReach(); };
+
+  var reachTimer=null, lastReach=0;
+  function refreshReach(){
+    var center = profile.lastLocation ? {lat:profile.lastLocation[1],lng:profile.lastLocation[0]} : null;
+    if(!center){ $('#cp-reach').textContent='—'; $('#cp-budget').textContent='—'; $('#cp-plan-info').textContent='Define tu ubicación en el Mapa primero'; return; }
+    var cat=$('#cp-cat').value, rad=$('#cp-rad').value;
+    clearTimeout(reachTimer);
+    reachTimer=setTimeout(function(){
+      api('/reach?lat='+center.lat+'&lng='+center.lng+'&radius='+rad+'&category='+cat).then(function(d){
+        lastReach=d.reach; $('#cp-reach').textContent=d.reach; updateBudget();
+      }).catch(function(){});
+    }, 350);
+  }
+  function updateBudget(){
+    var planName=$('#cp-plan').value;
+    if(planName==='por_mensaje'){
+      var b=lastReach*(pricing?pricing.pricePerMessage:100);
+      $('#cp-budget').textContent=money(b);
+      $('#cp-plan-info').textContent=lastReach+' mensajes × '+money(pricing?pricing.pricePerMessage:100);
+    } else {
+      var pl=(pricing.plans||[]).find(function(p){return p.name===planName;});
+      if(pl){ $('#cp-budget').textContent=money(pl.price); $('#cp-plan-info').textContent='Cubre hasta '+pl.messages+' mensajes y '+pl.campaigns+' campañas/mes'; }
+    }
+  }
+  $('#cp-plan').addEventListener('change', updateBudget);
+  $('#btn-cp-create').onclick=function(){
+    if(!profile.lastLocation){ return toast('Define tu ubicación en el Mapa primero', true); }
+    var body={producto:$('#cp-prod').value.trim(), category:$('#cp-cat').value, description:$('#cp-desc').value.trim(),
+      discountPercent:Number($('#cp-disc').value), lat:profile.lastLocation[1], lng:profile.lastLocation[0],
+      radius:Number($('#cp-rad').value), plan:$('#cp-plan').value};
+    if(!body.producto) return toast('Escribe el producto o servicio', true);
+    $('#btn-cp-create').disabled=true;
+    api('/campaigns',{method:'POST',body:JSON.stringify(body)}).then(function(d){
+      toast('Propuesta generada ✅'); $('#cp-prod').value=''; $('#cp-desc').value=''; loadMyCampaigns();
+    }).catch(function(e){toast(e.message,true);}).finally(function(){$('#btn-cp-create').disabled=false;});
+  };
+  var btnAi=$('#btn-ai'); if(btnAi){ btnAi.onclick=function(){
+    var prod=$('#cp-prod').value.trim();
+    if(!prod) return toast('Escribe primero el producto o servicio', true);
+    btnAi.disabled=true; var prev=btnAi.textContent; btnAi.textContent='✨ Redactando…';
+    api('/campaigns/ai-copy',{method:'POST',body:JSON.stringify({producto:prod,category:$('#cp-cat').value,discountPercent:Number($('#cp-disc').value)})})
+      .then(function(d){ $('#cp-desc').value=d.text; toast('Mensaje generado ✨'); })
+      .catch(function(e){toast(e.message,true);})
+      .finally(function(){ btnAi.disabled=false; btnAi.textContent=prev; });
+  };}
+  function loadMyCampaigns(){
+    api('/campaigns').then(function(d){
+      var box=$('#cp-list');
+      if(!d.campaigns.length){ box.innerHTML='<div class="sub">Aún no tienes campañas.</div>'; return; }
+      box.innerHTML=d.campaigns.map(function(c){
+        var payBtn = c.status==='propuesta'
+          ? '<button class="btn accent" data-pay="'+c._id+'" style="width:auto;padding:8px 16px;font-size:14px;border-radius:20px;margin-top:8px">💳 Pagar '+money(c.budget)+'</button>'
+          : '';
+        return '<div class="cpitem"><div style="display:flex;justify-content:space-between;align-items:center"><b>'+esc(c.producto)+'</b><span class="badge '+c.status+'">'+c.status+'</span></div>'+
+          '<div style="font-size:13px;color:var(--muted);margin-top:3px">'+(CAT_META[c.category]||'')+' '+esc(c.category)+' · '+c.discountPercent+'% dcto · alcance '+c.estimatedReach+'</div>'+
+          '<div style="font-size:13px;margin-top:4px">Plan: '+esc(c.plan)+' · Presupuesto: <b>'+money(c.budget)+'</b></div>'+payBtn+'</div>';
+      }).join('');
+      [].slice.call(box.querySelectorAll('[data-pay]')).forEach(function(b){
+        b.onclick=function(){
+          b.disabled=true; b.textContent='Generando pago…';
+          api('/campaigns/'+b.dataset.pay+'/pay',{method:'POST',body:'{}'})
+            .then(function(r){ window.location.href=r.checkoutUrl; })
+            .catch(function(e){ toast(e.message,true); b.disabled=false; });
+        };
+      });
+    }).catch(function(){});
+  }
+  function openProfile(){
+    show('#s-profile'); applyRole();
+    $('#p-name').value=profile.name||''; $('#p-phone').textContent='+'+profile.waId;
+    $('#p-radius').value=profile.maxDistanceMeters||2000; $('#p-radius-val').textContent=((profile.maxDistanceMeters||2000)/1000).toFixed(1)+' km';
+    var box=$('#p-cats'); box.innerHTML='';
+    allCats.forEach(function(c){
+      var el=document.createElement('div'); el.className='chip'+((profile.categories||[]).indexOf(c)>=0?' on':'');
+      el.textContent=(CAT_META[c]||'')+' '+c; el.dataset.cat=c;
+      el.onclick=function(){ el.classList.toggle('on'); }; box.appendChild(el);
+    });
+  }
+  $('#p-radius').oninput=function(){ $('#p-radius-val').textContent=(this.value/1000).toFixed(1)+' km'; };
+  $('#btn-save-profile').onclick=function(){
+    var cats=[].slice.call(document.querySelectorAll('#p-cats .chip.on')).map(function(e){return e.dataset.cat;});
+    var body={name:$('#p-name').value, categories:cats, maxDistanceMeters:Number($('#p-radius').value)};
+    api('/me',{method:'PUT',body:JSON.stringify(body)}).then(function(d){ profile=d.profile; toast('Guardado ✅'); })
+      .catch(function(e){toast(e.message,true);});
+  };
+  $('#btn-logout').onclick=logout;
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // ---------- INIT ----------
+  function boot(){
+    api('/categories').then(function(d){ allCats=d.categories||[]; }).catch(function(){});
+    api('/pricing').then(function(d){ pricing=d; }).catch(function(){});
+    if(token){
+      api('/me').then(function(d){ profile=d.profile; routeAfterLogin(); }).catch(function(){ logout(); });
+    } else { show('#s-login'); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('/app/sw.js').catch(function(){}); }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
