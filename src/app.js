@@ -7,6 +7,7 @@ const webhookRoutes = require('./routes/webhook.routes');
 const adminRoutes = require('./routes/admin.routes');
 const appRoutes = require('./routes/app.routes');
 const paymentRoutes = require('./routes/payments.routes');
+const redemptionRoutes = require('./routes/redemption.routes');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/app', express.static(path.join(__dirname, '../public/app')));
 app.use('/webhook', webhookRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/admin', adminRoutes);
+app.use('/canjear', redemptionRoutes);
 
 // Landing page pública en la raíz del dominio (igeogo.ingizer.com/).
 app.use('/', express.static(path.join(__dirname, '../public/landing')));

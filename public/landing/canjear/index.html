@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9Q6DNKDM7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9Q6DNKDM7S');
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Validar cupón · igeogo</title>
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://igeogo.ingizer.com/canjear/" />
+<link rel="icon" href="/assets/isotipo.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/brand.css" />
+<style>
+  .redeem{padding:56px 0 80px;min-height:calc(100vh - 65px);display:flex;align-items:flex-start}
+  .redeem .wrap{max-width:460px}
+  .redeem h1{font-size:clamp(26px,5vw,34px);margin-bottom:8px}
+  .redeem .sub{color:var(--muted);font-size:15.5px;margin-bottom:28px}
+  .redeem-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
+  .redeem-card label{display:block;font-weight:600;font-size:14px;margin-bottom:8px}
+  .redeem-card input{width:100%;font-family:var(--sans);font-size:22px;letter-spacing:.08em;text-transform:uppercase;
+    padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);
+    text-align:center;box-sizing:border-box}
+  .redeem-card input:focus{outline:2px solid var(--accent);border-color:transparent}
+  .redeem-card .btn{width:100%;margin-top:16px;font-size:16px;padding:14px}
+  .result{margin-top:20px;padding:16px 18px;border-radius:14px;font-size:15px;line-height:1.5;display:none}
+  .result.show{display:block}
+  .result.ok{background:color-mix(in srgb, var(--wa) 14%, var(--bg));border:1px solid color-mix(in srgb, var(--wa) 34%, var(--line))}
+  .result.err{background:color-mix(in srgb, var(--pin) 12%, var(--bg));border:1px solid color-mix(in srgb, var(--pin) 34%, var(--line))}
+  .result b{display:block;font-size:17px;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">
+      <img class="mark" src="/assets/isotipo.svg" alt="igeogo" width="36" height="36" />
+      <span class="lock"><span class="wm">igeogo</span><span class="tag">#SAVE ANYWHERE</span></span>
+    </a>
+  </div>
+</header>
+
+<main class="redeem">
+  <div class="wrap">
+    <p class="eyebrow">Para comercios</p>
+    <h1>Validar cupón</h1>
+    <p class="sub">Escribe el código que el cliente te muestra en su WhatsApp. Cada código solo puede canjearse una vez.</p>
+
+    <div class="redeem-card">
+      <form id="redeemForm">
+        <label for="code">Código de canje</label>
+        <input type="text" id="code" name="code" placeholder="IGG-XXXXXX" autocomplete="off" autocapitalize="characters" required />
+        <button type="submit" class="btn gold" id="submitBtn">Validar código</button>
+      </form>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="/">
+      <img class="mark" src="/assets/isotipo.svg" alt="igeogo" width="36" height="36" />
+      <span class="lock"><span class="wm">igeogo</span><span class="tag">#SAVE ANYWHERE</span></span>
+    </a>
+    <span>© 2026 igeogo · un producto de ingizer</span>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById('redeemForm');
+  const input = document.getElementById('code');
+  const result = document.getElementById('result');
+  const btn = document.getElementById('submitBtn');
+
+  function esc(s) {
+    const d = document.createElement('div');
+    d.textContent = String(s == null ? '' : s);
+    return d.innerHTML;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = input.value.trim();
+    if (!code) return;
+    btn.disabled = true;
+    btn.textContent = 'Validando…';
+    result.className = 'result';
+    try {
+      const res = await fetch('/canjear/validar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        result.classList.add('show', 'ok');
+        result.innerHTML = `<b>✅ Cupón válido</b>${data.coupon ? 'Cupón: ' + esc(data.coupon) : ''}${data.merchant ? '<br>Comercio: ' + esc(data.merchant) : ''}`;
+        form.reset();
+      } else {
+        result.classList.add('show', 'err');
+        result.innerHTML = `<b>⚠️ No se pudo canjear</b>${esc(data.error || 'Código inválido.')}`;
+      }
+    } catch (err) {
+      result.classList.add('show', 'err');
+      result.innerHTML = '<b>⚠️ Error de conexión</b>Intenta de nuevo.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Validar código';
+    }
+  });
+</script>
+
+</body>
+</html>

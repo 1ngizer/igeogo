@@ -5,6 +5,7 @@ const Coupon = require('../models/Coupon');
 const User = require('../models/User');
 const Campaign = require('../models/Campaign');
 const Lead = require('../models/Lead');
+const Redemption = require('../models/Redemption');
 const { Pricing, getPricing } = require('../models/Pricing');
 const matching = require('../services/matching.service');
 const campaigns = require('../services/campaign.service');
@@ -265,6 +266,17 @@ async function setLeadStatus(req, res) {
   }
 }
 
+/** GET /admin/redemptions — historial de canjes de cupones. */
+async function listRedemptions(req, res) {
+  const list = await Redemption.find()
+    .sort({ createdAt: -1 })
+    .limit(200)
+    .populate('coupon', 'title')
+    .populate('merchant', 'name')
+    .lean();
+  return res.json(list);
+}
+
 module.exports = {
   createMerchant,
   listMerchants,
@@ -282,4 +294,5 @@ module.exports = {
   dispatchCampaign,
   deleteCampaign,
   setCampaignStatus,
+  listRedemptions,
 };

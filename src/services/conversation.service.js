@@ -3,6 +3,7 @@
 const User = require('../models/User');
 const Coupon = require('../models/Coupon');
 const Campaign = require('../models/Campaign');
+const Redemption = require('../models/Redemption');
 const config = require('../config');
 const logger = require('../utils/logger');
 const wa = require('./whatsapp.service');
@@ -222,6 +223,14 @@ async function expandSearch(user, radius) {
 async function sendCouponCard(user, coupon) {
   const m = coupon.merchant || {};
   const code = generateRedemptionCode();
+  if (m._id) {
+    await Redemption.create({
+      coupon: coupon._id,
+      merchant: m._id,
+      waId: user.waId,
+      code,
+    }).catch((err) => logger.error('No se pudo registrar el código de canje:', err.message));
+  }
   const stars =
     m.rating > 0
       ? '⭐'.repeat(Math.max(1, Math.round(m.rating))) +

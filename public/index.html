@@ -96,6 +96,7 @@
       <button data-tab="precios">💲 Precios</button>
       <button data-tab="campanas">📣 Campañas</button>
       <button data-tab="leads">📥 Leads</button>
+      <button data-tab="canjes">🎟️ Canjes</button>
     </div>
 
     <!-- ================= COMERCIOS ================= -->
@@ -294,6 +295,19 @@
         <div id="ld-empty" class="empty hidden">Aún no hay leads.</div>
       </div>
     </section>
+
+    <!-- ================= CANJES ================= -->
+    <section id="tab-canjes" class="hidden">
+      <div class="card">
+        <h2>Canjes de cupones (<span id="rd-count">0</span>) <button class="btn ghost sm" id="rd-refresh" style="margin-left:8px">Actualizar</button></h2>
+        <div class="muted" style="margin-bottom:10px">Validados por los comercios en igeogo.ingizer.com/canjear</div>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Código</th><th>Cupón</th><th>Comercio</th><th>Cliente (WhatsApp)</th><th>Generado</th><th>Estado</th></tr></thead>
+          <tbody id="rd-body"></tbody></table>
+        </div>
+        <div id="rd-empty" class="empty hidden">Aún no hay códigos generados.</div>
+      </div>
+    </section>
   </div>
 
   <!-- Login -->
@@ -348,7 +362,7 @@
       b.onclick = () => {
         document.querySelectorAll('.tabs button').forEach((x) => x.classList.remove('active'));
         b.classList.add('active');
-        ['comercios', 'cupones', 'usuarios', 'simulador', 'precios', 'campanas'].forEach((t) =>
+        ['comercios', 'cupones', 'usuarios', 'simulador', 'precios', 'campanas', 'leads', 'canjes'].forEach((t) =>
           $('#tab-' + t).classList.toggle('hidden', t !== b.dataset.tab)
         );
         if (b.dataset.tab === 'comercios' && map) setTimeout(() => map.invalidateSize(), 50);
@@ -358,6 +372,7 @@
         if (b.dataset.tab === 'precios') loadPricing();
         if (b.dataset.tab === 'campanas') loadCampaigns();
         if (b.dataset.tab === 'leads') loadLeads();
+        if (b.dataset.tab === 'canjes') loadRedemptions();
       };
     });
 
@@ -861,6 +876,27 @@
       });
     }
     $('#ld-refresh').onclick = loadLeads;
+
+    // ---------- Canjes ----------
+    async function loadRedemptions() {
+      const list = await api('/admin/redemptions');
+      $('#rd-count').textContent = list.length;
+      $('#rd-empty').classList.toggle('hidden', list.length > 0);
+      const tb = $('#rd-body'); tb.innerHTML = '';
+      list.forEach((r) => {
+        const tr = document.createElement('tr');
+        const date = new Date(r.createdAt).toLocaleString('es-CO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+        const statusPill = r.status === 'canjeado' ? '<span class="pill ok">canjeado</span>' : '<span class="pill gray">pendiente</span>';
+        tr.innerHTML = `<td><code>${esc(r.code)}</code></td>
+          <td>${esc(r.coupon ? r.coupon.title : '—')}</td>
+          <td>${esc(r.merchant ? r.merchant.name : '—')}</td>
+          <td class="muted">${esc(r.waId)}</td>
+          <td>${date}</td>
+          <td>${statusPill}</td>`;
+        tb.appendChild(tr);
+      });
+    }
+    $('#rd-refresh').onclick = loadRedemptions;
 
     // ---------- util ----------
     function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }

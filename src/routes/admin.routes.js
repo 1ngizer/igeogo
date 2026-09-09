@@ -30,4 +30,6 @@ router.put('/campaigns/:id/status', admin.setCampaignStatus);
 router.get('/leads', admin.listLeads);
 router.put('/leads/:id/status', admin.setLeadStatus);
 
+router.get('/redemptions', admin.listRedemptions);
+
 module.exports = router;
