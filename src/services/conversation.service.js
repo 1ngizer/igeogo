@@ -436,6 +436,7 @@ async function handleActive(user, msg) {
       user.pendingCampaign = null;
       await user.save();
       if (camp) {
+        await Campaign.updateOne({ _id: camp._id }, { $inc: { interestedCount: 1 } }).catch(() => null);
         await sendCampaignCard(user, camp);
         return sendMainMenu(user);
       }

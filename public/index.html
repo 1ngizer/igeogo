@@ -273,8 +273,9 @@
     <section id="tab-campanas" class="hidden">
       <div class="card">
         <h2>Campañas de clientes (<span id="cm-count">0</span>) <button class="btn ghost sm" id="cm-refresh" style="margin-left:8px">Actualizar</button></h2>
+        <div id="cm-summary" class="muted" style="margin-bottom:10px"></div>
         <div style="overflow:auto">
-          <table><thead><tr><th>Cliente</th><th>Producto</th><th>Categoría</th><th>Dcto</th><th>Alcance</th><th>Plan</th><th>Presupuesto</th><th>Estado</th><th>Acción</th></tr></thead>
+          <table><thead><tr><th>Cliente</th><th>Producto</th><th>Categoría</th><th>Dcto</th><th>Alcance</th><th>Plan</th><th>Presupuesto</th><th>Estado</th><th>Interesados</th><th>Acción</th></tr></thead>
           <tbody id="cm-body"></tbody></table>
         </div>
         <div id="cm-empty" class="empty hidden">Aún no hay campañas.</div>
@@ -791,14 +792,28 @@
       $('#cm-count').textContent = list.length;
       $('#cm-empty').classList.toggle('hidden', list.length > 0);
       const tb = $('#cm-body'); tb.innerHTML = '';
+      let totalSent = 0, totalInterested = 0, sentCampaigns = 0;
+      list.forEach((c) => {
+        if (c.status === 'enviada') {
+          sentCampaigns++; totalSent += c.sentCount || 0; totalInterested += c.interestedCount || 0;
+        }
+      });
+      const overallRate = totalSent > 0 ? ((totalInterested / totalSent) * 100).toFixed(1) : '0.0';
+      $('#cm-summary').textContent = sentCampaigns > 0
+        ? `${sentCampaigns} campaña(s) enviada(s) · ${totalSent} mensajes enviados · ${totalInterested} interesados · ${overallRate}% conversión promedio`
+        : '';
       list.forEach((c) => {
         const tr = document.createElement('tr');
         const sentInfo = c.status === 'enviada' ? `<br><span class="muted">${c.sentCount || 0} enviados</span>` : '';
         const canSend = c.status !== 'enviada' && c.status !== 'rechazada';
+        const interestedInfo = c.status === 'enviada'
+          ? `${c.interestedCount || 0}${c.sentCount ? `<br><span class="muted">${(((c.interestedCount || 0) / c.sentCount) * 100).toFixed(1)}%</span>` : ''}`
+          : '<span class="muted">—</span>';
         tr.innerHTML = `<td>${esc(c.clienteName || c.cliente)}<br><span class="muted">${esc(c.cliente)}</span></td>
           <td><b>${esc(c.producto)}</b></td><td><span class="pill cat">${esc(c.category)}</span></td>
           <td>${c.discountPercent}%</td><td>${c.estimatedReach}</td><td>${esc(c.plan)}</td><td>${cop(c.budget)}</td>
           <td><span class="pill gray">${esc(c.status)}</span>${sentInfo}</td>
+          <td>${interestedInfo}</td>
           <td style="white-space:nowrap">
             ${canSend ? '<button class="btn sm" data-act="send">📣 Enviar</button> ' : ''}
             <select><option value="">Estado…</option><option value="pagada">Marcar pagada</option><option value="enviada">Marcar enviada</option><option value="rechazada">Rechazar</option></select>

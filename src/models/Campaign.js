@@ -43,6 +43,9 @@ const campaignSchema = new mongoose.Schema(
     // Despacho (envío masivo a la audiencia).
     sentCount: { type: Number, default: 0 }, // mensajes efectivamente enviados
     sentAt: { type: Date, default: null }, // cuándo se despachó
+
+    // Analítica: cuántos destinatarios respondieron "INTERESADO" a esta campaña.
+    interestedCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
