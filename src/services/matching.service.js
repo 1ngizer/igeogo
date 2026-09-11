@@ -29,10 +29,12 @@ async function findNearbyCoupons({ lng, lat, categories, radius, limit = 5 }) {
         $maxDistance: maxDistance,
       },
     },
-    // Excluir cupones expirados o que aún no han comenzado.
+    // Excluir cupones expirados, que aún no han comenzado, o que ya
+    // agotaron su límite de canjes (redemptionLimit = 0 significa ilimitado).
     $and: [
       { $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }] },
       { $or: [{ startsAt: null }, { startsAt: { $lte: new Date() } }] },
+      { $or: [{ redemptionLimit: 0 }, { $expr: { $lt: ['$redemptionCount', '$redemptionLimit'] } }] },
     ],
   };
 

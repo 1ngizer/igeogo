@@ -178,6 +178,16 @@
             <input id="c-expires" type="date" />
           </div>
         </div>
+        <div class="grid2">
+          <div>
+            <label>% de descuento (opcional)</label>
+            <input id="c-discount" type="number" min="0" max="100" placeholder="20" />
+          </div>
+          <div>
+            <label>Límite de canjes (opcional, 0 = ilimitado)</label>
+            <input id="c-limit" type="number" min="0" placeholder="0" />
+          </div>
+        </div>
         <label>Descripción (opcional)</label>
         <textarea id="c-desc" rows="2" placeholder="Válido de lunes a viernes"></textarea>
         <button class="btn" id="c-save">Crear cupón</button>
@@ -543,13 +553,15 @@
         merchantId: $('#c-merchant').value,
         title: $('#c-title').value.trim(),
         description: $('#c-desc').value.trim(),
+        discountPercent: Number($('#c-discount').value) || 0,
+        redemptionLimit: Number($('#c-limit').value) || 0,
         expiresAt: $('#c-expires').value || null,
       };
       if (!body.merchantId || !body.title) return toast('Falta comercio o título', true);
       try {
         await api('/admin/coupons', { method: 'POST', body: JSON.stringify(body) });
         toast('Cupón creado ✅');
-        $('#c-title').value = $('#c-desc').value = ''; $('#c-expires').value = '';
+        $('#c-title').value = $('#c-desc').value = ''; $('#c-expires').value = ''; $('#c-discount').value = ''; $('#c-limit').value = '';
         loadCoupons();
       } catch (e) { toast(e.message, true); }
     };
@@ -558,13 +570,16 @@
       $('#c-count').textContent = list.length;
       const box = $('#c-list');
       if (!list.length) { box.innerHTML = '<div class="empty">Aún no hay cupones.</div>'; return; }
-      box.innerHTML = '<div style="overflow:auto"><table><thead><tr><th>Oferta</th><th>Comercio</th><th>Categoría</th><th>Vence</th><th></th></tr></thead><tbody></tbody></table></div>';
+      box.innerHTML = '<div style="overflow:auto"><table><thead><tr><th>Oferta</th><th>Comercio</th><th>Categoría</th><th>Dcto</th><th>Canjes</th><th>Vence</th><th></th></tr></thead><tbody></tbody></table></div>';
       const tb = box.querySelector('tbody');
       list.forEach((c) => {
         const tr = document.createElement('tr');
+        const limitInfo = c.redemptionLimit > 0 ? `${c.redemptionCount || 0}/${c.redemptionLimit}` : `${c.redemptionCount || 0} (sin límite)`;
         tr.innerHTML = `<td><b>${esc(c.title)}</b><br><span class="muted">${esc(c.description || '')}</span></td>
           <td>${esc(c.merchant ? c.merchant.name : '—')}</td>
           <td><span class="pill cat">${esc(c.category)}</span></td>
+          <td>${c.discountPercent ? c.discountPercent + '%' : '—'}</td>
+          <td class="muted">${limitInfo}</td>
           <td class="muted">${c.expiresAt ? new Date(c.expiresAt).toLocaleDateString() : '—'}</td>
           <td><button class="btn danger sm" data-id="${c._id}">Borrar</button></td>`;
         tr.querySelector('button').onclick = async () => {

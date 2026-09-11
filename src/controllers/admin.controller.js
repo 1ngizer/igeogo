@@ -84,7 +84,7 @@ async function updateMerchant(req, res) {
  */
 async function createCoupon(req, res) {
   try {
-    const { merchantId, title, description, expiresAt, redemptionLimit } = req.body;
+    const { merchantId, title, description, discountPercent, expiresAt, redemptionLimit } = req.body;
     if (!merchantId || !title) {
       return res.status(400).json({ error: 'Campos requeridos: merchantId, title' });
     }
@@ -99,10 +99,11 @@ async function createCoupon(req, res) {
       title,
       description: description || '',
       category: merchant.category,
+      discountPercent: Number(discountPercent) || 0,
       location: merchant.location,
       address: merchant.address,
       expiresAt: expiresAt ? new Date(expiresAt) : null,
-      redemptionLimit: redemptionLimit || 0,
+      redemptionLimit: Number(redemptionLimit) || 0,
     });
 
     return res.status(201).json(coupon);

@@ -14,6 +14,7 @@ const couponSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, default: '' },
     category: { type: String, required: true }, // comida | ropa | servicios
+    discountPercent: { type: Number, default: 0 },
 
     // Copia desnormalizada de la ubicación del comercio (GeoJSON Point).
     location: {
