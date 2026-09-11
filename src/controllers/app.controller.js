@@ -251,6 +251,15 @@ async function createCampaign(req, res) {
     }
     const radius = Number(b.radius) || user.maxDistanceMeters || 2000;
 
+    const moderation = await ai.moderateCampaignCopy({
+      producto: b.producto,
+      description: b.description,
+      discountPercent: Number(b.discountPercent) || 0,
+    });
+    if (!moderation.ok) {
+      return res.status(422).json({ error: moderation.reason });
+    }
+
     const reach = await countReach({ lng, lat, category: b.category, radius, excludeWaId: req.waId });
 
     const pricing = await getPricing();
@@ -292,6 +301,32 @@ async function createCampaign(req, res) {
 async function listMyCampaigns(req, res) {
   const list = await Campaign.find({ cliente: req.waId }).sort({ createdAt: -1 }).lean();
   return res.json({ campaigns: list });
+}
+
+/**
+ * POST /app/api/campaigns/:id/insight  (rol cliente)
+ * Genera con IA una recomendación breve a partir de los resultados reales
+ * de una campaña ya despachada (sentCount/interestedCount).
+ */
+async function campaignInsight(req, res) {
+  try {
+    const campaign = await Campaign.findOne({ _id: req.params.id, cliente: req.waId }).lean();
+    if (!campaign) return res.status(404).json({ error: 'Campaña no encontrada' });
+    if (campaign.status !== 'enviada') {
+      return res.status(400).json({ error: 'Esta campaña todavía no se ha enviado.' });
+    }
+    const insight = await ai.generateCampaignInsight({
+      producto: campaign.producto,
+      category: campaign.category,
+      discountPercent: campaign.discountPercent,
+      sentCount: campaign.sentCount || 0,
+      interestedCount: campaign.interestedCount || 0,
+    });
+    return res.json({ insight });
+  } catch (err) {
+    logger.error('campaignInsight:', err.message);
+    return res.status(500).json({ error: err.message });
+  }
 }
 
 /**
@@ -387,6 +422,7 @@ module.exports = {
   getReach,
   createCampaign,
   listMyCampaigns,
+  campaignInsight,
   aiCopy,
   payCampaign,
 };

@@ -445,9 +445,18 @@
         var payBtn = c.status==='propuesta'
           ? '<button class="btn accent" data-pay="'+c._id+'" style="width:auto;padding:8px 16px;font-size:14px;border-radius:20px;margin-top:8px">💳 Pagar '+money(c.budget)+'</button>'
           : '';
+        var resultsBlock = '';
+        if(c.status==='enviada'){
+          var sent = c.sentCount||0, interested = c.interestedCount||0;
+          var rate = sent>0 ? ((interested/sent)*100).toFixed(1) : '0.0';
+          resultsBlock = '<div style="font-size:13px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line,#2a2f3a)">'+
+            '📤 '+sent+' enviados · 🙋 '+interested+' interesados · '+rate+'% conversión</div>'+
+            '<button class="btn ghost" data-insight="'+c._id+'" style="width:auto;padding:7px 14px;font-size:13px;border-radius:20px;margin-top:8px">💡 Ver recomendación IA</button>'+
+            '<div class="ai-insight" data-insight-out="'+c._id+'" style="display:none;font-size:13px;margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.06)"></div>';
+        }
         return '<div class="cpitem"><div style="display:flex;justify-content:space-between;align-items:center"><b>'+esc(c.producto)+'</b><span class="badge '+c.status+'">'+c.status+'</span></div>'+
           '<div style="font-size:13px;color:var(--muted);margin-top:3px">'+(CAT_META[c.category]||'')+' '+esc(c.category)+' · '+c.discountPercent+'% dcto · alcance '+c.estimatedReach+'</div>'+
-          '<div style="font-size:13px;margin-top:4px">Plan: '+esc(c.plan)+' · Presupuesto: <b>'+money(c.budget)+'</b></div>'+payBtn+'</div>';
+          '<div style="font-size:13px;margin-top:4px">Plan: '+esc(c.plan)+' · Presupuesto: <b>'+money(c.budget)+'</b></div>'+payBtn+resultsBlock+'</div>';
       }).join('');
       [].slice.call(box.querySelectorAll('[data-pay]')).forEach(function(b){
         b.onclick=function(){
@@ -455,6 +464,16 @@
           api('/campaigns/'+b.dataset.pay+'/pay',{method:'POST',body:'{}'})
             .then(function(r){ window.location.href=r.checkoutUrl; })
             .catch(function(e){ toast(e.message,true); b.disabled=false; });
+        };
+      });
+      [].slice.call(box.querySelectorAll('[data-insight]')).forEach(function(b){
+        b.onclick=function(){
+          var out=box.querySelector('[data-insight-out="'+b.dataset.insight+'"]');
+          b.disabled=true; b.textContent='Pensando…';
+          api('/campaigns/'+b.dataset.insight+'/insight',{method:'POST',body:'{}'})
+            .then(function(r){ out.textContent='💡 '+r.insight; out.style.display='block'; })
+            .catch(function(e){ toast(e.message,true); })
+            .finally(function(){ b.disabled=false; b.textContent='💡 Ver recomendación IA'; });
         };
       });
     }).catch(function(){});

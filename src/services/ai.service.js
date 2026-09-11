@@ -56,4 +56,85 @@ async function generateCampaignCopy({ producto, category, discountPercent }) {
   return text;
 }
 
-module.exports = { generateCampaignCopy };
+/**
+ * Revisa si el texto de una campaña es engañoso, ofensivo o incumple las
+ * políticas básicas de contenido comercial de WhatsApp Business, antes de
+ * permitir que se publique. No bloquea si la IA no está configurada o falla
+ * (fail-open): es una capa de ayuda, no debe tumbar la creación de campañas.
+ */
+async function moderateCampaignCopy({ producto, description, discountPercent }) {
+  if (!process.env.ANTHROPIC_API_KEY) return { ok: true };
+
+  const prompt =
+    'Eres un moderador de contenido para una plataforma de cupones de WhatsApp Business. ' +
+    'Revisa si esta oferta es engañosa, usa lenguaje ofensivo/ilegal, o promete algo imposible ' +
+    '(ej. "100% gratis" sin serlo, descuentos superiores a 100%, contenido para adultos, armas, drogas). ' +
+    `Producto/servicio: ${producto}\n` +
+    `Descripción: ${description || '(sin descripción)'}\n` +
+    `Descuento declarado: ${discountPercent}%\n\n` +
+    'Responde EXCLUSIVAMENTE con un JSON válido, sin texto adicional, con esta forma exacta: ' +
+    '{"ok": true} si la oferta es aceptable, o {"ok": false, "reason": "motivo breve en español"} si no lo es.';
+
+  try {
+    const msg = await getClient().messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 200,
+      messages: [{ role: 'user', content: prompt }],
+    });
+    const text = (msg.content || [])
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('')
+      .trim();
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) return { ok: true };
+    const parsed = JSON.parse(match[0]);
+    if (parsed.ok === false) {
+      return { ok: false, reason: parsed.reason || 'Contenido no permitido.' };
+    }
+    return { ok: true };
+  } catch (err) {
+    logger.error('moderateCampaignCopy falló, se deja pasar (fail-open):', err.message);
+    return { ok: true };
+  }
+}
+
+/**
+ * Genera una recomendación breve en lenguaje natural para el comercio, a
+ * partir de los resultados reales de una campaña ya despachada.
+ */
+async function generateCampaignInsight({ producto, category, discountPercent, sentCount, interestedCount }) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error('IA no configurada (falta ANTHROPIC_API_KEY)');
+  }
+  const rate = sentCount > 0 ? ((interestedCount / sentCount) * 100).toFixed(1) : '0';
+
+  const prompt =
+    'Eres un analista de marketing de proximidad. Con estos resultados reales de una campaña de ' +
+    'WhatsApp, escribe UNA recomendación breve y accionable para el dueño del negocio (no un resumen, ' +
+    'una sugerencia concreta de qué hacer en la próxima campaña).\n\n' +
+    `Producto: ${producto}\n` +
+    `Categoría: ${category}\n` +
+    `Descuento ofrecido: ${discountPercent}%\n` +
+    `Mensajes enviados: ${sentCount}\n` +
+    `Personas interesadas: ${interestedCount}\n` +
+    `Tasa de conversión: ${rate}%\n\n` +
+    'Máximo 2 líneas, tono directo y útil, sin relleno. Responde SOLO con la recomendación, sin comillas.';
+
+  const msg = await getClient().messages.create({
+    model: 'claude-haiku-4-5',
+    max_tokens: 200,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = (msg.content || [])
+    .filter((b) => b.type === 'text')
+    .map((b) => b.text)
+    .join('')
+    .trim();
+
+  if (!text) throw new Error('La IA devolvió una respuesta vacía');
+  return text;
+}
+
+module.exports = { generateCampaignCopy, moderateCampaignCopy, generateCampaignInsight };
