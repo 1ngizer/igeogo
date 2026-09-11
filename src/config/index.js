@@ -17,7 +17,10 @@ const config = {
     accessToken: process.env.WHATSAPP_ACCESS_TOKEN || '',
     phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || '',
     apiVersion: process.env.WHATSAPP_API_VERSION || 'v21.0',
+    appSecret: process.env.WHATSAPP_APP_SECRET || '', // Se usa para validar webhooks de Meta
   },
+
+  jwtSecret: process.env.APP_SECRET || process.env.ADMIN_API_KEY || 'igeogo_dev_secret_cambiame',
 
   business: {
     // Radio de búsqueda en metros (2 km por defecto).

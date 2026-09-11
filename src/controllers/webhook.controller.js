@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('crypto');
 const config = require('../config');
 const logger = require('../utils/logger');
 const conversation = require('../services/conversation.service');
@@ -32,6 +33,30 @@ function verify(req, res) {
  * y procesamos el mensaje de forma asíncrona.
  */
 async function receive(req, res) {
+  // Validación de la firma X-Hub-Signature-256
+  const signature = req.get('x-hub-signature-256');
+  if (config.whatsapp.appSecret && signature && req.rawBody) {
+    const expectedSignature = 'sha256=' + crypto.createHmac('sha256', config.whatsapp.appSecret)
+      .update(req.rawBody)
+      .digest('hex');
+    
+    let isValid = false;
+    try {
+      const sigBuffer = Buffer.from(signature);
+      const expectedBuffer = Buffer.from(expectedSignature);
+      if (sigBuffer.length === expectedBuffer.length) {
+        isValid = crypto.timingSafeEqual(sigBuffer, expectedBuffer);
+      }
+    } catch (e) {
+      isValid = false;
+    }
+
+    if (!isValid) {
+      logger.warn('Firma de webhook de Meta inválida.');
+      return res.sendStatus(403);
+    }
+  }
+
   res.sendStatus(200); // ACK inmediato a Meta
 
   try {

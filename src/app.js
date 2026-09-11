@@ -2,6 +2,9 @@
 
 const path = require('path');
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const logger = require('./utils/logger');
 const webhookRoutes = require('./routes/webhook.routes');
 const adminRoutes = require('./routes/admin.routes');
@@ -10,6 +13,30 @@ const paymentRoutes = require('./routes/payments.routes');
 const redemptionRoutes = require('./routes/redemption.routes');
 
 const app = express();
+
+// 1. Cabeceras de seguridad
+app.use(helmet({
+  contentSecurityPolicy: false, // Opcional: desactivar si bloquea scripts de frontend que no estén afinados
+}));
+
+// 2. CORS explícito
+app.use(cors({
+  origin: ['https://igeogo.ingizer.com', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-key']
+}));
+
+// 3. Rate limiter global (API general)
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 200, // Límite de cada IP a 200 peticiones por ventana
+  message: { error: 'Demasiadas peticiones desde esta IP, intenta más tarde.' }
+});
+
+// Aplicar el limitador a todas las rutas bajo /app/api y /admin
+app.use('/app/api', apiLimiter);
+app.use('/admin', apiLimiter);
+
 
 // La Cloud API envía JSON. Conservamos el raw body por si más adelante
 // queremos validar la firma X-Hub-Signature-256 de Meta.
