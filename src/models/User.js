@@ -70,6 +70,7 @@ const userSchema = new mongoose.Schema(
     plan: { type: String, default: null }, // plan comercial activo del cliente
     otpCode: { type: String, default: null }, // código de acceso temporal
     otpExpires: { type: Date, default: null },
+    otpAttempts: { type: Number, default: 0 }, // control de intentos fallidos
     maxDistanceMeters: { type: Number, default: 2000 }, // radio preferido del usuario
     consentLocation: { type: Boolean, default: false }, // permiso de ubicación otorgado
     usesApp: { type: Boolean, default: false }, // ha entrado por la app

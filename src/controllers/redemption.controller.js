@@ -32,6 +32,14 @@ async function validate(req, res) {
     });
   }
 
+  if (redemption.coupon && redemption.coupon.expiresAt && new Date(redemption.coupon.expiresAt) < new Date()) {
+    return res.status(410).json({
+      ok: false,
+      error: 'Este cupón ya expiró y no puede ser canjeado.',
+      coupon: redemption.coupon.title,
+    });
+  }
+
   redemption.status = 'canjeado';
   redemption.redeemedAt = new Date();
   await redemption.save();

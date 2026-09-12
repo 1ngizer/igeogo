@@ -50,10 +50,15 @@ async function requestOtp(req, res) {
     if (!user) user = new User({ waId: phone, state: 'active' });
     user.otpCode = code;
     user.otpExpires = otpExpires;
+    user.otpAttempts = 0;
     user.usesApp = true;
     await user.save();
 
-    logger.info(`OTP para ${phone}: ${code}`); // visible en logs para pruebas
+    if (config.env !== 'production') {
+      logger.info(`OTP para ${phone}: ${code}`); // visible solo en desarrollo
+    } else {
+      logger.info(`OTP generado y enviado para ${phone}`);
+    }
     await wa
       .sendText(phone, `🔐 Tu código de acceso a igeogo es: *${code}*\nVence en 10 minutos.`)
       .catch((e) => logger.warn('No se pudo enviar OTP por WhatsApp:', e.message));
@@ -80,10 +85,38 @@ async function verifyOtp(req, res) {
       return res.status(400).json({ error: 'Solicita un código primero' });
     }
     if (user.otpExpires < new Date()) return res.status(400).json({ error: 'Código expirado' });
-    if (user.otpCode !== code) return res.status(400).json({ error: 'Código incorrecto' });
+
+    if ((user.otpAttempts || 0) >= 5) {
+      user.otpCode = null;
+      user.otpExpires = null;
+      user.otpAttempts = 0;
+      await user.save();
+      return res.status(429).json({ error: 'Demasiados intentos fallidos. Solicita un nuevo código.' });
+    }
+
+    let match = false;
+    try {
+      const bufExpected = Buffer.from(String(user.otpCode));
+      const bufGiven = Buffer.from(String(code));
+      if (bufExpected.length === bufGiven.length && crypto.timingSafeEqual(bufExpected, bufGiven)) {
+        match = true;
+      }
+    } catch (e) {
+      match = false;
+    }
+
+    if (!match) {
+      user.otpAttempts = (user.otpAttempts || 0) + 1;
+      await user.save();
+      const remaining = 5 - user.otpAttempts;
+      return res.status(400).json({
+        error: remaining > 0 ? `Código incorrecto (${remaining} intento${remaining === 1 ? '' : 's'} restante${remaining === 1 ? '' : 's'})` : 'Demasiados intentos fallidos. Solicita un nuevo código.',
+      });
+    }
 
     user.otpCode = null;
     user.otpExpires = null;
+    user.otpAttempts = 0;
     if (user.optInAt == null) user.optInAt = new Date();
     await user.save();
 

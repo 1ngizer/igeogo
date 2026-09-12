@@ -13,12 +13,19 @@ const authLimiter = rateLimit({
   message: { error: 'Demasiados intentos de inicio de sesión. Intenta en 10 minutos.' }
 });
 
+// Limitador para registro de comercios (leads)
+const leadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 10, // 10 envíos por IP
+  message: { error: 'Demasiadas solicitudes de registro. Intenta más tarde.' }
+});
+
 // Público (login).
 router.post('/auth/request-otp', authLimiter, app.requestOtp);
 router.post('/auth/verify-otp', authLimiter, app.verifyOtp);
 router.get('/categories', app.getCategories);
 router.get('/pricing', app.getPricingPublic);
-router.post('/lead', app.createLead);
+router.post('/lead', leadLimiter, app.createLead);
 
 // Requiere sesión.
 router.get('/me', appAuth, app.getMe);
