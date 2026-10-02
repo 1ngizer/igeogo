@@ -42,7 +42,7 @@ async function createMerchant(req, res) {
     return res.status(201).json(merchant);
   } catch (err) {
     logger.error('createMerchant:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al crear el comercio.' });
   }
 }
 
@@ -73,7 +73,7 @@ async function updateMerchant(req, res) {
     return res.json(m);
   } catch (err) {
     logger.error('updateMerchant:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al actualizar el comercio.' });
   }
 }
 
@@ -109,7 +109,7 @@ async function createCoupon(req, res) {
     return res.status(201).json(coupon);
   } catch (err) {
     logger.error('createCoupon:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al crear el cupón.' });
   }
 }
 
@@ -126,7 +126,8 @@ async function deleteMerchant(req, res) {
     await Merchant.findByIdAndDelete(req.params.id);
     return res.json({ ok: true });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    logger.error('deleteMerchant:', err.message);
+    return res.status(500).json({ error: 'Ocurrió un error interno al eliminar el comercio.' });
   }
 }
 
@@ -136,7 +137,8 @@ async function deleteCoupon(req, res) {
     await Coupon.findByIdAndDelete(req.params.id);
     return res.json({ ok: true });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    logger.error('deleteCoupon:', err.message);
+    return res.status(500).json({ error: 'Ocurrió un error interno al eliminar el cupón.' });
   }
 }
 
@@ -148,7 +150,8 @@ async function deleteCoupon(req, res) {
  */
 async function listUsers(req, res) {
   try {
-    const users = await User.find().sort({ updatedAt: -1 }).lean();
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 100, 1), 500);
+    const users = await User.find().sort({ updatedAt: -1 }).limit(limit).lean();
     const enriched = await Promise.all(
       users.map(async (u) => {
         let nearbyCoupons = null;
@@ -158,7 +161,7 @@ async function listUsers(req, res) {
             lng,
             lat,
             categories: u.categories,
-            limit: 100,
+            limit: 20,
           });
           nearbyCoupons = c.length;
         }
@@ -168,7 +171,7 @@ async function listUsers(req, res) {
     return res.json(enriched);
   } catch (err) {
     logger.error('listUsers:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al consultar usuarios.' });
   }
 }
 
@@ -197,7 +200,7 @@ async function updatePricing(req, res) {
     return res.json(p);
   } catch (err) {
     logger.error('updatePricing:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al actualizar precios.' });
   }
 }
 
@@ -229,7 +232,8 @@ async function deleteCampaign(req, res) {
     await Campaign.findByIdAndDelete(req.params.id);
     return res.json({ ok: true });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    logger.error('deleteCampaign:', err.message);
+    return res.status(500).json({ error: 'Ocurrió un error interno al eliminar la campaña.' });
   }
 }
 
@@ -237,13 +241,14 @@ async function deleteCampaign(req, res) {
 async function setCampaignStatus(req, res) {
   try {
     const { status } = req.body;
-    if (!['propuesta', 'pagada', 'enviada', 'rechazada'].includes(status)) {
+    if (!['propuesta', 'pagada', 'enviando', 'enviada', 'rechazada'].includes(status)) {
       return res.status(400).json({ error: 'Estado inválido' });
     }
     const c = await Campaign.findByIdAndUpdate(req.params.id, { status }, { new: true });
     return res.json(c);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    logger.error('setCampaignStatus:', err.message);
+    return res.status(500).json({ error: 'Ocurrió un error interno al actualizar estado de la campaña.' });
   }
 }
 
@@ -263,7 +268,8 @@ async function setLeadStatus(req, res) {
     const l = await Lead.findByIdAndUpdate(req.params.id, { status }, { new: true });
     return res.json(l);
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    logger.error('setLeadStatus:', err.message);
+    return res.status(500).json({ error: 'Ocurrió un error interno al actualizar estado del lead.' });
   }
 }
 

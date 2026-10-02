@@ -14,6 +14,9 @@ const redemptionRoutes = require('./routes/redemption.routes');
 
 const app = express();
 
+// Confiar en el proxy inverso (Railway, Heroku, etc.) para resolver la IP real del cliente
+app.set('trust proxy', 1);
+
 // 1. Cabeceras de seguridad
 app.use(helmet({
   contentSecurityPolicy: false, // Opcional: desactivar si bloquea scripts de frontend que no estén afinados

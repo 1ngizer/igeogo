@@ -45,6 +45,15 @@ router.post('/wompi', wompiLimiter, async (req, res) => {
     }
     if (campaign.status === 'pagada') return; // ya procesada
 
+    // Validación de concordancia de monto (prevenir pago insuficiente)
+    const expectedCents = Math.round((campaign.budget || 0) * 100);
+    if (typeof tx.amount_in_cents === 'number' && tx.amount_in_cents !== expectedCents) {
+      logger.warn(
+        `Wompi tx ${tx.id}: monto recibido (${tx.amount_in_cents} centavos) no coincide con el presupuesto de la campaña ${campaign._id} (${expectedCents} centavos)`
+      );
+      return;
+    }
+
     campaign.status = 'pagada';
     campaign.wompiTxId = tx.id;
     campaign.paidAt = new Date();

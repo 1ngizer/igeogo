@@ -39,8 +39,23 @@ async function createPaymentLink({ name, description, amountCop, redirectUrl }) 
  */
 function verifyEvent(event) {
   const secret = process.env.WOMPI_EVENTS_SECRET;
-  if (!secret || !event || !event.signature) return false;
+  if (!secret || !event || !event.signature || !event.signature.checksum) return false;
   try {
+    // Wompi reintenta entregas fallidas hasta ~24 h; una ventana corta perdería pagos legítimos.
+    // La idempotencia (campaña ya 'pagada') y la validación de monto cubren el replay.
+    if (event.timestamp) {
+      const eventTime =
+        typeof event.timestamp === 'number'
+          ? event.timestamp > 1e11
+            ? event.timestamp
+            : event.timestamp * 1000
+          : new Date(event.timestamp).getTime();
+      if (!isNaN(eventTime) && Math.abs(Date.now() - eventTime) > 25 * 60 * 60 * 1000) {
+        logger.warn('Evento de Wompi rechazado por timestamp desfasado:', event.timestamp);
+        return false;
+      }
+    }
+
     const props = event.signature.properties || [];
     let concat = '';
     for (const path of props) {
@@ -48,8 +63,13 @@ function verifyEvent(event) {
       concat += val == null ? '' : String(val);
     }
     concat += String(event.timestamp) + secret;
-    const digest = crypto.createHash('sha256').update(concat).digest('hex');
-    return digest.toLowerCase() === String(event.signature.checksum).toLowerCase();
+    const digest = crypto.createHash('sha256').update(concat).digest('hex').toLowerCase();
+    const checksum = String(event.signature.checksum).toLowerCase();
+
+    const bufDigest = Buffer.from(digest);
+    const bufChecksum = Buffer.from(checksum);
+    if (bufDigest.length !== bufChecksum.length) return false;
+    return crypto.timingSafeEqual(bufDigest, bufChecksum);
   } catch (err) {
     logger.error('verifyEvent:', err.message);
     return false;

@@ -36,12 +36,28 @@ async function handleIncomingMessage(msg) {
     user.profileName = profileName;
   }
 
+  // Interceptar palabras clave de baja (Opt-Out obligatorio según Meta y Ley 1581)
+  const rawText = (msg.text || '').trim().toLowerCase();
+  const isOptOut = /^(stop|alto|cancelar|baja|salir|no mas|no más)$/i.test(rawText);
+  if (isOptOut) {
+    user.state = 'opted_out';
+    user.optInAt = null;
+    await user.save();
+    logger.info(`Usuario solicitó baja (opt-out): ${user.waId}`);
+    return wa.sendText(
+      user.waId,
+      'Has sido dado de baja. No recibirás más ofertas de igeogo. Si deseas reactivarte en el futuro, escribe *Hola*.'
+    );
+  }
+
   // Si comparte una ubicación (tras el opt-in), la registramos y buscamos.
-  if (msg.location && user.state !== 'new' && user.state !== 'awaiting_optin') {
+  if (msg.location && user.state !== 'new' && user.state !== 'awaiting_optin' && user.state !== 'opted_out') {
     return handleLocation(user, msg.location);
   }
 
   switch (user.state) {
+    case 'opted_out':
+      return greet(user);
     case 'new':
       return greet(user);
     case 'awaiting_optin':
@@ -149,7 +165,7 @@ async function handleLocation(user, location) {
   const label = await reverseGeocode(location.lat, location.lng);
 
   if (!Array.isArray(user.locations)) user.locations = [];
-  user.locations.push({
+  user.locations = user.locations.slice(-9).concat({
     type: 'Point',
     coordinates: [location.lng, location.lat],
     label,

@@ -31,7 +31,7 @@ const campaignSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ['propuesta', 'pagada', 'enviada', 'rechazada'],
+      enum: ['propuesta', 'pagada', 'enviando', 'enviada', 'rechazada'],
       default: 'propuesta',
     },
 

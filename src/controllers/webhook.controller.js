@@ -33,13 +33,26 @@ function verify(req, res) {
  * y procesamos el mensaje de forma asíncrona.
  */
 async function receive(req, res) {
-  // Validación de la firma X-Hub-Signature-256
-  const signature = req.get('x-hub-signature-256');
-  if (config.whatsapp.appSecret && signature && req.rawBody) {
-    const expectedSignature = 'sha256=' + crypto.createHmac('sha256', config.whatsapp.appSecret)
-      .update(req.rawBody)
-      .digest('hex');
-    
+  if (!config.whatsapp.appSecret && !config.devLike) {
+    logger.error('WHATSAPP_APP_SECRET no está configurado: webhook de Meta rechazado (fail-closed).');
+    return res.sendStatus(403);
+  }
+
+  // Validación estricta de la firma X-Hub-Signature-256 (prevención de fail-open)
+  if (config.whatsapp.appSecret) {
+    const signature = req.get('x-hub-signature-256');
+    if (!signature || !req.rawBody) {
+      logger.warn('Petición a webhook de Meta rechazada: falta cabecera x-hub-signature-256 o cuerpo crudo.');
+      return res.sendStatus(403);
+    }
+
+    const expectedSignature =
+      'sha256=' +
+      crypto
+        .createHmac('sha256', config.whatsapp.appSecret)
+        .update(req.rawBody)
+        .digest('hex');
+
     let isValid = false;
     try {
       const sigBuffer = Buffer.from(signature);

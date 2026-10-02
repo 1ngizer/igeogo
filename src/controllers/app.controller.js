@@ -16,6 +16,9 @@ const wompi = require('../services/wompi.service');
 
 const EARTH_M = 6378100; // radio terrestre en metros (para $centerSphere)
 
+// Wompi rechaza bases < 150000 centavos (= $1.500 COP); su API reporta el error en centavos, sin unidad.
+const WOMPI_MIN_COP = 1500;
+
 /** Cuenta usuarios que hacen match (categoría + dentro del radio). Solo el número. */
 async function countReach({ lng, lat, category, radius, excludeWaId }) {
   const query = {
@@ -44,11 +47,12 @@ async function requestOtp(req, res) {
     if (phone.length < 8) return res.status(400).json({ error: 'Teléfono inválido' });
 
     const code = String(crypto.randomInt(100000, 1000000)); // 6 dígitos
+    const hashedCode = crypto.createHash('sha256').update(code).digest('hex');
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 min
 
     let user = await User.findOne({ waId: phone });
     if (!user) user = new User({ waId: phone, state: 'active' });
-    user.otpCode = code;
+    user.otpCode = hashedCode;
     user.otpExpires = otpExpires;
     user.otpAttempts = 0;
     user.usesApp = true;
@@ -68,7 +72,7 @@ async function requestOtp(req, res) {
     return res.json(out);
   } catch (err) {
     logger.error('requestOtp:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno. Intenta más tarde.' });
   }
 }
 
@@ -96,8 +100,14 @@ async function verifyOtp(req, res) {
 
     let match = false;
     try {
-      const bufExpected = Buffer.from(String(user.otpCode));
-      const bufGiven = Buffer.from(String(code));
+      const stored = String(user.otpCode || '');
+      let givenHash = code;
+      if (stored.length === 64) {
+        // Almacenado como hash SHA-256
+        givenHash = crypto.createHash('sha256').update(code).digest('hex');
+      }
+      const bufExpected = Buffer.from(stored);
+      const bufGiven = Buffer.from(givenHash);
       if (bufExpected.length === bufGiven.length && crypto.timingSafeEqual(bufExpected, bufGiven)) {
         match = true;
       }
@@ -124,7 +134,7 @@ async function verifyOtp(req, res) {
     return res.json({ token, profile: publicProfile(user) });
   } catch (err) {
     logger.error('verifyOtp:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno. Intenta más tarde.' });
   }
 }
 
@@ -175,7 +185,7 @@ async function updateMe(req, res) {
     if (lat != null && lng != null) {
       const label = await reverseGeocode(Number(lat), Number(lng));
       if (!Array.isArray(user.locations)) user.locations = [];
-      user.locations.push({
+      user.locations = user.locations.slice(-9).concat({
         type: 'Point',
         coordinates: [Number(lng), Number(lat)],
         label,
@@ -189,7 +199,7 @@ async function updateMe(req, res) {
     return res.json({ profile: publicProfile(user) });
   } catch (err) {
     logger.error('updateMe:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno. Intenta más tarde.' });
   }
 }
 
@@ -231,7 +241,7 @@ async function getCoupons(req, res) {
     return res.json({ center: { lat, lng }, radius, coupons: items });
   } catch (err) {
     logger.error('getCoupons:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al consultar cupones.' });
   }
 }
 
@@ -261,7 +271,7 @@ async function getReach(req, res) {
     return res.json({ reach });
   } catch (err) {
     logger.error('getReach:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al calcular alcance.' });
   }
 }
 
@@ -308,6 +318,13 @@ async function createCampaign(req, res) {
       budget = chosen.price; // el plan cubre hasta chosen.messages
     }
 
+    if (budget < WOMPI_MIN_COP) {
+      const minMessages = Math.ceil(WOMPI_MIN_COP / pricing.pricePerMessage);
+      return res.status(400).json({
+        error: `El presupuesto mínimo por campaña es de $1.500 COP (mínimo ${minMessages} mensajes). Tu campaña alcanza ${messages}: amplía el radio o elige un plan.`,
+      });
+    }
+
     const campaign = await Campaign.create({
       cliente: user.waId,
       clienteName: user.profileName || '',
@@ -326,7 +343,7 @@ async function createCampaign(req, res) {
     return res.status(201).json({ campaign });
   } catch (err) {
     logger.error('createCampaign:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al crear la campaña.' });
   }
 }
 
@@ -358,7 +375,7 @@ async function campaignInsight(req, res) {
     return res.json({ insight });
   } catch (err) {
     logger.error('campaignInsight:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al generar el análisis.' });
   }
 }
 
@@ -383,7 +400,7 @@ async function aiCopy(req, res) {
     return res.json({ text });
   } catch (err) {
     logger.error('aiCopy:', err.message);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Ocurrió un error interno al generar el copy.' });
   }
 }
 
@@ -396,7 +413,9 @@ async function payCampaign(req, res) {
     const campaign = await Campaign.findOne({ _id: req.params.id, cliente: req.waId });
     if (!campaign) return res.status(404).json({ error: 'Campaña no encontrada' });
     if (campaign.status === 'pagada') return res.status(400).json({ error: 'Esta campaña ya está pagada' });
-    if (!campaign.budget || campaign.budget <= 0) return res.status(400).json({ error: 'Presupuesto inválido' });
+    if (!campaign.budget || campaign.budget < WOMPI_MIN_COP) {
+      return res.status(400).json({ error: 'El presupuesto mínimo por campaña es de $1.500 COP' });
+    }
 
     const link = await wompi.createPaymentLink({
       name: `igeogo · ${campaign.producto}`.slice(0, 60),
@@ -410,7 +429,7 @@ async function payCampaign(req, res) {
   } catch (err) {
     const detail = err.response ? JSON.stringify(err.response.data) : err.message;
     logger.error('payCampaign:', detail);
-    return res.status(500).json({ error: 'No se pudo generar el pago. ' + err.message });
+    return res.status(500).json({ error: 'No se pudo generar el link de pago. Intenta más tarde.' });
   }
 }
 

@@ -408,9 +408,16 @@
   function updateBudget(){
     var planName=$('#cp-plan').value;
     if(planName==='por_mensaje'){
-      var b=lastReach*(pricing?pricing.pricePerMessage:100);
-      $('#cp-budget').textContent=money(b);
-      $('#cp-plan-info').textContent=lastReach+' mensajes × '+money(pricing?pricing.pricePerMessage:100);
+      var ppm = (pricing && pricing.pricePerMessage) || 100;
+      var rawB = lastReach * ppm;
+      var b = Math.max(1500, rawB);
+      $('#cp-budget').textContent = money(b);
+      var info = lastReach + ' mensajes × ' + money(ppm);
+      if(rawB < 1500){
+        var minMsgs = Math.ceil(1500 / ppm);
+        info += ' · Mínimo de pago ' + money(1500) + ' COP (mín. ' + minMsgs + ' msgs)';
+      }
+      $('#cp-plan-info').textContent = info;
     } else {
       var pl=(pricing.plans||[]).find(function(p){return p.name===planName;});
       if(pl){ $('#cp-budget').textContent=money(pl.price); $('#cp-plan-info').textContent='Cubre hasta '+pl.messages+' mensajes y '+pl.campaigns+' campañas/mes'; }
@@ -423,6 +430,13 @@
       discountPercent:Number($('#cp-disc').value), lat:profile.lastLocation[1], lng:profile.lastLocation[0],
       radius:Number($('#cp-rad').value), plan:$('#cp-plan').value};
     if(!body.producto) return toast('Escribe el producto o servicio', true);
+    if(body.plan === 'por_mensaje'){
+      var ppm = (pricing && pricing.pricePerMessage) || 100;
+      if(lastReach * ppm < 1500){
+        var minMsgs = Math.ceil(1500 / ppm);
+        return toast('El alcance (' + lastReach + ' msgs) no alcanza el mínimo de $1.500 COP (mín. ' + minMsgs + ' msgs). Amplía el radio.', true);
+      }
+    }
     $('#btn-cp-create').disabled=true;
     api('/campaigns',{method:'POST',body:JSON.stringify(body)}).then(function(d){
       toast('Propuesta generada ✅'); $('#cp-prod').value=''; $('#cp-desc').value=''; loadMyCampaigns();

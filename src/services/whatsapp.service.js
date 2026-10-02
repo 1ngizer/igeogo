@@ -135,4 +135,27 @@ async function sendImage(to, imageUrl, caption = '') {
   });
 }
 
-module.exports = { sendText, sendButtons, sendList, sendCard, sendLocation, sendImage };
+/**
+ * Envía un mensaje basado en plantilla aprobada (obligatorio para despachos fuera de ventana 24h).
+ * @param {string} to  Número de destino (ej. 573001234567).
+ * @param {string} templateName Nombre de la plantilla registrada en Meta (ej. 'oferta_cercana').
+ * @param {string} [languageCode='es'] Código de idioma.
+ * @param {Array} [components=[]] Parámetros de la plantilla (cuerpo, cabecera, botones).
+ */
+async function sendTemplate(to, templateName, languageCode = 'es', components = []) {
+  const payload = {
+    messaging_product: 'whatsapp',
+    to,
+    type: 'template',
+    template: {
+      name: templateName,
+      language: { code: languageCode },
+    },
+  };
+  if (Array.isArray(components) && components.length > 0) {
+    payload.template.components = components;
+  }
+  return post(payload);
+}
+
+module.exports = { sendText, sendButtons, sendList, sendCard, sendLocation, sendImage, sendTemplate };

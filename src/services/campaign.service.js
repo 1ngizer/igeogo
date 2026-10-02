@@ -3,9 +3,16 @@
 const User = require('../models/User');
 const Campaign = require('../models/Campaign');
 const wa = require('./whatsapp.service');
+const config = require('../config');
 const logger = require('../utils/logger');
 
 const EARTH_M = 6378100; // radio terrestre en metros (para $centerSphere)
+
+// Meta rechaza variables vacías o con saltos de línea/tabs/espacios repetidos.
+function tplParam(value, fallback) {
+  const s = String(value == null ? '' : value).replace(/\s+/g, ' ').trim().slice(0, 60);
+  return s || fallback;
+}
 
 /**
  * Resuelve los waId de la audiencia de una campaña: usuarios (no clientes),
@@ -16,6 +23,7 @@ async function resolveAudienceWaIds(campaign, limit) {
   const [lng, lat] = campaign.location.coordinates;
   const query = {
     role: { $ne: 'cliente' },
+    state: { $nin: ['opted_out', 'new', 'awaiting_optin'] }, // solo usuarios activos y con opt-in
     waId: { $ne: campaign.cliente }, // no enviarse a sí mismo
     lastLocation: {
       $geoWithin: { $centerSphere: [[lng, lat], campaign.radius / EARTH_M] },
@@ -42,6 +50,9 @@ function buildMessage(campaign) {
 
 /**
  * Despacha una campaña a su audiencia por WhatsApp.
+ *  - Exige estado 'pagada'.
+ *  - Bloqueo atómico a 'enviando' para evitar despachos duplicados concurrentes.
+ *  - Envía solo mediante la plantilla aprobada en Meta (sin texto libre: fuera de la ventana de 24 h no está permitido).
  *  - Respeta el tope de mensajes del plan (campaign.messages).
  *  - Envía en lotes con pausa para no exceder los límites de Meta.
  *  - Marca a cada destinatario con pendingCampaign para el flujo INTERESADO.
@@ -51,11 +62,23 @@ async function dispatchCampaign(campaignId) {
   const campaign = await Campaign.findById(campaignId);
   if (!campaign) throw new Error('Campaña no encontrada');
   if (campaign.status === 'enviada') throw new Error('La campaña ya fue enviada');
+  if (campaign.status === 'enviando') throw new Error('La campaña ya se está despachando actualmente');
   if (campaign.status === 'rechazada') throw new Error('La campaña está rechazada');
+  if (campaign.status !== 'pagada') throw new Error('La campaña no puede despacharse porque no ha sido pagada');
 
-  const cap = campaign.messages || campaign.estimatedReach || 0;
-  const audience = await resolveAudienceWaIds(campaign, cap > 0 ? cap : 1000);
-  const message = buildMessage(campaign);
+  // Bloqueo atómico de despacho
+  const locked = await Campaign.findOneAndUpdate(
+    { _id: campaignId, status: 'pagada' },
+    { $set: { status: 'enviando' } },
+    { new: true }
+  );
+  if (!locked) {
+    throw new Error('No se pudo iniciar el despacho: la campaña cambió de estado o ya está en proceso');
+  }
+
+  const cap = locked.messages || locked.estimatedReach || 0;
+  const audience = await resolveAudienceWaIds(locked, cap > 0 ? cap : 1000);
+  const { templateName, templateLang } = config.whatsapp;
 
   let sent = 0;
   let failed = 0;
@@ -66,12 +89,23 @@ async function dispatchCampaign(campaignId) {
     await Promise.all(
       slice.map(async (waId) => {
         try {
-          await wa.sendText(waId, message);
-          await User.updateOne({ waId }, { pendingCampaign: campaign._id });
+          const discountText = locked.discountPercent ? `${locked.discountPercent}% de descuento` : 'descuento especial';
+          const components = [
+            {
+              type: 'body',
+              parameters: [
+                { type: 'text', text: tplParam(locked.producto, 'Oferta local') },
+                { type: 'text', text: discountText },
+              ],
+            },
+          ];
+
+          await wa.sendTemplate(waId, templateName, templateLang, components);
+          await User.updateOne({ waId }, { pendingCampaign: locked._id });
           sent += 1;
         } catch (e) {
           failed += 1;
-          logger.warn(`Campaña ${campaign._id}: fallo a ${waId}: ${e.message}`);
+          logger.warn(`Campaña ${locked._id}: fallo a ${waId}: ${e.message}`);
         }
       })
     );
@@ -82,13 +116,13 @@ async function dispatchCampaign(campaignId) {
     }
   }
 
-  campaign.sentCount = sent;
-  campaign.sentAt = new Date();
-  campaign.status = 'enviada';
-  await campaign.save();
+  locked.sentCount = sent;
+  locked.sentAt = new Date();
+  locked.status = 'enviada';
+  await locked.save();
 
   logger.info(
-    `Campaña ${campaign._id} despachada: ${sent} enviados, ${failed} fallidos (audiencia ${audience.length})`
+    `Campaña ${locked._id} despachada: ${sent} enviados, ${failed} fallidos (audiencia ${audience.length})`
   );
   return { attempted: audience.length, sent, failed };
 }

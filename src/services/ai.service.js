@@ -4,6 +4,7 @@ const Anthropic = require('@anthropic-ai/sdk');
 const logger = require('../utils/logger');
 
 // El cliente lee ANTHROPIC_API_KEY del entorno automáticamente.
+const MODEL = process.env.ANTHROPIC_MODEL || 'claude-haiku-4-5';
 let client = null;
 function getClient() {
   if (!client) client = new Anthropic();
@@ -36,7 +37,7 @@ async function generateCampaignCopy({ producto, category, discountPercent }) {
     'Responde SOLO con el mensaje, sin comillas ni explicaciones.';
 
   const msg = await getClient().messages.create({
-    model: 'claude-haiku-4-5',
+    model: MODEL,
     max_tokens: 400,
     messages: [{ role: 'user', content: prompt }],
   });
@@ -77,7 +78,7 @@ async function moderateCampaignCopy({ producto, description, discountPercent }) 
 
   try {
     const msg = await getClient().messages.create({
-      model: 'claude-haiku-4-5',
+      model: MODEL,
       max_tokens: 200,
       messages: [{ role: 'user', content: prompt }],
     });
@@ -122,7 +123,7 @@ async function generateCampaignInsight({ producto, category, discountPercent, se
     'Máximo 2 líneas, tono directo y útil, sin relleno. Responde SOLO con la recomendación, sin comillas.';
 
   const msg = await getClient().messages.create({
-    model: 'claude-haiku-4-5',
+    model: MODEL,
     max_tokens: 200,
     messages: [{ role: 'user', content: prompt }],
   });

@@ -50,6 +50,7 @@ const userSchema = new mongoose.Schema(
         'awaiting_location',
         'choosing_previous',
         'active',
+        'opted_out',
       ],
       default: 'new',
     },

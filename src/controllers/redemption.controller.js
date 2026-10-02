@@ -18,31 +18,41 @@ async function validate(req, res) {
     return res.status(400).json({ ok: false, error: 'Falta el código.' });
   }
 
-  const redemption = await Redemption.findOne({ code }).populate('coupon').populate('merchant');
-  if (!redemption) {
+  const existing = await Redemption.findOne({ code }).populate('coupon').populate('merchant');
+  if (!existing) {
     return res.status(404).json({ ok: false, error: 'Código no encontrado. Revisa que esté bien escrito.' });
   }
 
-  if (redemption.status === 'canjeado') {
+  if (existing.status === 'canjeado') {
     return res.status(409).json({
       ok: false,
       error: 'Este código ya fue canjeado antes.',
-      redeemedAt: redemption.redeemedAt,
-      coupon: redemption.coupon ? redemption.coupon.title : null,
+      redeemedAt: existing.redeemedAt,
+      coupon: existing.coupon ? existing.coupon.title : null,
     });
   }
 
-  if (redemption.coupon && redemption.coupon.expiresAt && new Date(redemption.coupon.expiresAt) < new Date()) {
+  if (existing.coupon && existing.coupon.expiresAt && new Date(existing.coupon.expiresAt) < new Date()) {
     return res.status(410).json({
       ok: false,
       error: 'Este cupón ya expiró y no puede ser canjeado.',
-      coupon: redemption.coupon.title,
+      coupon: existing.coupon.title,
     });
   }
 
-  redemption.status = 'canjeado';
-  redemption.redeemedAt = new Date();
-  await redemption.save();
+  // Canje atómico para evitar condición de carrera (TOCTOU)
+  const redemption = await Redemption.findOneAndUpdate(
+    { _id: existing._id, status: { $ne: 'canjeado' } },
+    { $set: { status: 'canjeado', redeemedAt: new Date() } },
+    { new: true }
+  ).populate('coupon').populate('merchant');
+
+  if (!redemption) {
+    return res.status(409).json({
+      ok: false,
+      error: 'Este código acaba de ser canjeado en otra solicitud concurrente.',
+    });
+  }
 
   if (redemption.coupon) {
     await Coupon.updateOne({ _id: redemption.coupon._id }, { $inc: { redemptionCount: 1 } }).catch((err) =>
