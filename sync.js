@@ -60,18 +60,17 @@ const projects = {
     ]
   },
   "igeogo": {
-    "Avance": 60,
-    "Bloqueos": "Wompi rechaza transacciones bajo $150.000 COP — rompe 3 de los 4 planes de precio actuales (pago por mensaje, Básico, Pro). Escalado a soporte de Wompi, sin respuesta aún.",
-    "Próxima Tarea": "Dar seguimiento a soporte de Wompi sobre el mínimo de transacción, y mientras tanto rediseñar los planes para que todos superen $150.000 COP.",
-    "Estado del proyecto": "Bloqueado",
+    "Avance": 85,
+    "Bloqueos": "La plantilla de marketing no existe en la cuenta real de WhatsApp (solo en la de pruebas): sin ella el despacho masivo no entrega. Pendiente también método de pago en WhatsApp Manager y variables de Railway.",
+    "Próxima Tarea": "Crear y aprobar la plantilla en la cuenta WhatsApp 'igeogo', definir variables en Railway (APP_SECRET, WHATSAPP_APP_SECRET, WHATSAPP_TEMPLATE_*), y desplegar.",
+    "Estado del proyecto": "En curso",
     "Prioridad": "Alta",
     "Backlog": [
-      "Resolver o mitigar el mínimo de transacción de Wompi ($150.000 COP)",
-      "Esperar resultado de la Verificación de Negocio de Meta (en revisión)",
-      "Conseguir el número nuevo dedicado al bot (no reusar +573213737341)",
-      "Configurar método de pago en WhatsApp Manager y publicar la app en modo Live",
-      "Actualizar el código de despacho de campañas para usar la plantilla aprobada 'oferta_cercana'",
-      "Verificación del Google Business Profile (en curso, ~5 días)"
+      "Crear y aprobar la plantilla de marketing en la cuenta WhatsApp igeogo",
+      "Configurar método de pago de WhatsApp en Meta Business Manager",
+      "Cargar primeros comercios y cupones reales vía panel admin",
+      "Desplegar cambios de auditoría a Railway y verificar headers en producción",
+      "Evaluar registro de dominio propio igeogo.co"
     ]
   }
 };
