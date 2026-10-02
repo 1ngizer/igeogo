@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node src/scripts/seed.js",
-    "sync": "node sync.js"
+    "sync": "node sync.js",
+    "test": "node --test"
   },
   "keywords": [
     "whatsapp",
