@@ -43,19 +43,30 @@ Plataforma de marketing de proximidad geográfica. Los comercios crean campañas
 
 ---
 
+## Despliegue y pruebas
+
+- **Pruebas:** `npm test` (56 pruebas con el runner nativo de Node; los modelos y WhatsApp se simulan, no tocan servicios reales).
+- **Despliegue:** manual con `railway up` (proyecto `igeogo`, servicio `igeogo`, entorno `production`). Railway **no** está conectado a GitHub: un push al repositorio no despliega. Salud: `GET /health`; `railway.json` pide a Railway comprobar `/health` antes de dar por bueno un despliegue.
+- **Variables obligatorias en producción:** `NODE_ENV=production`, `APP_SECRET` y `WHATSAPP_APP_SECRET` (sin ellas la app no arranca o el webhook rechaza todo). La lista completa de nombres está en `.env.example`.
+- **Estado (2026-10-13):** la remediación de la auditoría de octubre está en producción (despliegue del 2026-10-13) y `main` coincide con GitHub.
+
+---
+
 ## Bloqueos Activos
 
-- **Plantilla de WhatsApp:** `oferta_cercana` está aprobada solo en la cuenta antigua de pruebas; falta crearla y aprobarla en la cuenta real "igeogo". Sin ella el despacho masivo no entrega mensajes.
-- **Wompi resuelto:** el "mínimo de $150.000" era una malinterpretación; el mínimo real es $1.500 COP (150.000 centavos). El backend valida ese piso.
-- Pendiente asociar método de pago en WhatsApp Manager de Meta para conversaciones iniciadas por el negocio.
+- **Método de pago de WhatsApp:** WhatsApp Manager muestra "Missing valid payment method"; sin él no se pueden enviar plantillas de marketing. Es un paso manual del dueño del negocio (datos de tarjeta).
+- **Sin probar en producción:** la baja con "STOP" y el despacho por plantilla (`oferta_cercana`, aprobada y Active desde 2026-10-10) todavía no se han probado con mensajes reales.
+- **Wompi (resuelto):** el "mínimo de $150.000" era una malinterpretación; el mínimo real es $1.500 COP (150.000 centavos) y el backend valida ese piso.
 
 ---
 
 ## Tareas en Progreso
 
-- [ ] Crear y aprobar la plantilla de marketing en la cuenta de WhatsApp "igeogo" (idioma = `WHATSAPP_TEMPLATE_LANG`).
-- [ ] Definir en Railway antes de desplegar: `APP_SECRET`, `WHATSAPP_APP_SECRET`, `NODE_ENV=production`, `WHATSAPP_TEMPLATE_NAME`, `WHATSAPP_TEMPLATE_LANG`.
-- [ ] Asociar tarjeta de crédito en Meta WhatsApp Manager para habilitar envío masivo de plantillas de marketing.
-- [ ] Cargar primeros comercios y cupones reales desde el panel de administración.
-- [ ] Desplegar a Railway y validar cabeceras y webhooks en vivo.
-- [ ] Evaluar registro de dominio propio `igeogo.co`.
+La lista oficial y vigente está en el monitor interno de ingizer (proyecto igeogo). Resumen:
+
+- [ ] Asociar el método de pago en WhatsApp Manager.
+- [ ] Probar el bot de punta a punta ("Hola" → "STOP" → "Hola").
+- [ ] Cargar los primeros comercios y cupones reales desde el panel de administración.
+- [ ] Cambiar el webhook de Meta al dominio propio.
+- [ ] Después del lanzamiento: CSP en Helmet, recuperación del estado `enviando`, pruebas del OTP, iconos PNG de la PWA y conectar Railway a GitHub.
+- [ ] Evaluar registro del dominio propio `igeogo.co`.
