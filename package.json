@@ -8,7 +8,6 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node src/scripts/seed.js",
-    "sync": "node sync.js",
     "test": "node --test"
   },
   "keywords": [
@@ -22,7 +21,6 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.110.0",
-    "@notionhq/client": "^2.2.15",
     "axios": "^1.7.7",
     "cors": "^2.8.6",
     "dotenv": "^16.4.5",

@@ -25,7 +25,6 @@ igeogo/
 ├── .gitignore
 ├── README.md             # tablero del ecosistema (ingizer + PosBank + igeogo)
 ├── SETUP.md              # este archivo
-├── sync.js               # sincroniza el tablero con Notion
 └── src/
     ├── server.js                 # arranque (conecta DB + levanta Express)
     ├── app.js                    # configuración de Express y rutas
@@ -147,7 +146,6 @@ curl -X POST http://localhost:3000/admin/coupons \
 | `WHATSAPP_PHONE_NUMBER_ID` | Mismo panel API Setup (Phone Number ID, **no** el número). |
 | `MONGODB_URI` | Tu MongoDB local o la connection string de Atlas. |
 | `ADMIN_API_KEY` | La inventas tú para proteger `/admin`. |
-| `NOTION_TOKEN` / `NOTION_DATABASE_ID` | Ver el encabezado de `sync.js` — solo necesarios para sincronizar el tablero de proyectos con Notion. |
 
 ---
 
